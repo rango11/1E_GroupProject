@@ -7,10 +7,12 @@ Our trading platform is a web-based application that allows users to trade tangi
 We have identified the following user personas:
 1.	Casual collectors: These users have a mild interest in collecting items as a hobby or for personal enjoyment, but are not as active or invested as more serious collectors.
 2.	Sellers: These users are primarily interested in selling items on the platform, rather than buying or trading. They may be small business owners, entrepreneurs, or artists who use the platform to reach a wider audience.
-3.	Affluent investors: These users are high net worth individuals who invest in collectibles as a form of alternative investment. They may have extensive knowledge of the market and are looking for rare or high-value items to add to their collections.
-4.	Social collectors: These users are primarily interested in the social aspects of collecting, such as connecting with other collectors and sharing their collections with others. They may also be interested in attending events and meetups related to collecting.
-5.	Young collectors: These users are younger individuals who are interested in collecting items as a hobby or for personal enjoyment. They may not have a lot of disposable income but are looking for affordable ways to start building their collections.
-6.	Professional traders: These users are experienced traders who use the platform as a means of generating income. They may have a deep understanding of market trends and strategies for buying and selling items.
+3.	Social collectors: These users are primarily interested in the social aspects of collecting, such as connecting with other collectors and sharing their collections with others. They may also be interested in attending events and meetups related to collecting.
+4.	Young collectors: These users are younger individuals who are interested in collecting items as a hobby or for personal enjoyment. They may not have a lot of disposable income but are looking for affordable ways to start building their collections.
+5.	Professional traders: These users are experienced traders who use the platform as a means of generating income. They may have a deep understanding of market trends and strategies for buying and selling items.
+
+Stretch Goal:
+• Affluent investors: These users are high net worth individuals who invest in collectibles as a form of alternative investment. They may have extensive knowledge of the market and are looking for rare or high-value items to add to their collections.
 
 3. Minimal List of Requirements
 Our trading platform will include the following features:
