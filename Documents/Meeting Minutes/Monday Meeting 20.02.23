@@ -1,0 +1,24 @@
+Monday meeting.
+
+Attended: Anwar, Karl, Samir, Fin. 
+
+We commitited trading platform. App named White Market. 
+
+Discussed the site uses, and critiqued some of the stuff from our draft design specs.
+
+Using Api’s: 
+•	News on the given category in the store.
+•	Google two factor authentication. 
+•	Captcha api.
+
+Splitting of tasks:
+•	Anwar: System Architecture
+•	Karl: Specs
+•	Samir: E.R.
+•	Fin: Wireframe, Walkthrough
+•	David: User Ratings
+
+•	Group task: Walkthrough (Thursday), 
+Users changes:
+•	Professional tag.
+•	Transacation history 
