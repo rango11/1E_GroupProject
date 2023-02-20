@@ -1,0 +1,77 @@
+App name: White Market
+
+1. Overview
+Our trading platform is a web-based application that allows users to trade tangible and digital collectibles. It offers the functionality to buy, sell, and trade items, as well as track price changes. Users can create accounts, customize their profiles, and engage with a community of collectors and traders.
+
+2. User Personas
+We have identified the following user personas:
+1.	Casual collectors: These users have a mild interest in collecting items as a hobby or for personal enjoyment, but are not as active or invested as more serious collectors.
+2.	Sellers: These users are primarily interested in selling items on the platform, rather than buying or trading. They may be small business owners, entrepreneurs, or artists who use the platform to reach a wider audience.
+3.	Affluent investors: These users are high net worth individuals who invest in collectibles as a form of alternative investment. They may have extensive knowledge of the market and are looking for rare or high-value items to add to their collections.
+4.	Social collectors: These users are primarily interested in the social aspects of collecting, such as connecting with other collectors and sharing their collections with others. They may also be interested in attending events and meetups related to collecting.
+5.	Young collectors: These users are younger individuals who are interested in collecting items as a hobby or for personal enjoyment. They may not have a lot of disposable income but are looking for affordable ways to start building their collections.
+6.	Professional traders: These users are experienced traders who use the platform as a means of generating income. They may have a deep understanding of market trends and strategies for buying and selling items.
+
+3. Minimal List of Requirements
+Our trading platform will include the following features:
+•	User account creation and customization
+•	Item listings with details and images
+•	Search functionality for finding specific items
+•	Buying and selling functionality, including bidding and offers
+•	Tracking price changes for items
+•	User-to-user messaging system for negotiating deals
+•	Integration with third-party payment systems
+•	User ratings and reviews for building trust in the community
+•	Analytics for tracking user behaviour and platform performance
+Additional features:
+•	Search filters: Allow users to filter search results by various criteria, such as item type, price range, and location.
+•	Notifications: Send email or push notifications to users for actions like bids, offers, and messages.
+•	Admin panel: A user-friendly admin panel for managing user accounts, listings, and site content.
+•	Social media integration: Allow users to share their listings and profile on social media platforms like Twitter, Facebook, and Instagram.
+•	Secure transactions: Implement security measures to protect user data and ensure secure transactions, including SSL encryption and tokenization of sensitive data.
+•	Advanced analytics: Collect and analyze data about user behavior, traffic, and performance to identify opportunities for growth and improvement.
+•	Advanced search: Implement an intelligent search system that leverages AI and machine learning to provide more accurate and relevant search results.
+•	Item verification: Implement a system for verifying item authenticity, especially for high-value items, to reduce fraud and build trust in the community.
+•	Multi-currency support: Allow users to buy and sell items in multiple currencies, catering to a global audience.
+•	Referral program: Implement a referral program that rewards users for referring new users to the platform, which can help to drive growth and increase user engagement.
+
+4. High-Level System Architecture Diagram
+•	Our application will have the following components:
+•	Front-end: A React-based user interface for interacting with the platform
+•	Back-end: A Django-based API for handling user requests and data processing
+•	Database: A SQLite database for storing user data and item listings
+•	Third-party APIs: Payment systems for processing transactions and APIs for fetching price data
+
+5. ER Diagram
+Our ER Diagram is in compressed Chen notation and includes the following entities:
+•	Users: ID[PK], username, email, password, profile picture, bio(for search), seller rating
+•	Items: ID[PK], name, description (for search), image, price, seller ID[FK], buyer ID[FK], status, condition, market trend
+•	Store: ID[PK], item ID[FK], bidder ID[FK], seller ID[FK], offer amount, status, seller rating[FK], description (for search)
+
+6. Wireframes
+We have created wireframes for the following key pages:
+•	Homepage
+•	Item listings
+•	Item details page
+•	Account creation and customization
+•	Buying and selling process
+
+7. Site Map and URLs
+Our site map includes the following pages and URLs:
+•	Home: /
+•	Item Listings: /listings
+•	Item Details: /listings/:id
+•	Account Creation: /register
+•	Account Customization: /profile
+•	Buying Process: /listings/:id/buy
+•	Selling Process: /listings/:id/sell
+•	Payment: /payment
+•	Checkout: /checkout
+•	Login: /login
+•	Logout: /logout
+•	404 Error: /404
+•	Contact Us: /contact
+•	About Us: /about
+•	Terms of Service: /terms
+•	Privacy Policy: /privacy
+These pages are organized hierarchically to provide a clear navigation path for users.
