@@ -1,0 +1,12 @@
+User requirements
+
+· Users must be able to create and manage their account.
+· User must be able to sign in and out of their account.
+· Users should be able to create trades with photos and be able to manage the trade.
+· Users should be able to create a buy-able item with a photo instead of a trade.
+· Users should be able to create bids/offers on other trades.
+· Users should be able to sort and filter the storefront.
+· Users should be able to view owner history of that specific collectible, a graph of previous selling prices, and current offers for that trade.
+· // Users should receive an email notification when an offer has been made.
+· Users should be able to accept trade offers.
+· Users should be able to rate the seller after purchase/trade.
