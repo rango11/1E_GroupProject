@@ -1,0 +1,8 @@
+Overview:
+Introducing our web-based trading platform “White Market”, designed for professional traders and serious collectors. Our platform offers advanced functionality and a sleek, minimalistic design to stand out from competitors like eBay. Users can buy, sell, and bid on both tangible and digital collectibles, including figurines, memorabilia, digital items such as in-game skins, NFT’s and more.
+We have tailored it for professional traders, or serious enthusiasts, and its functionality and design reflect that, with a sleek and minimal aesthetic and features that with draw these users over sites like eBay. 
+It offers the functionality to buy, sell, and bid on items, as well as track price changes over a period, provide news on any given store, and some security elements to mitigate bots and scammer via captcha and unique user ID’s.
+Users will self-enforce good use through a rating system, where sellers are rated post-transaction to encourage legitimate sales and satisfied customers. 
+Users can create accounts, customize their profiles, write descriptions, and list contact information.
+“White Market” uses Django for the web framework, Flask for the front-end, and SQLite for the database.
+Our initial scope is focused on trading collectible cards, such as Pokémon and baseball cards.  However, our platform is designed to host different storefronts for a wide range of collectibles, both tangible and digital. 
