@@ -4,5 +4,5 @@ We have tailored it for professional traders, or serious enthusiasts, and its fu
 It offers the functionality to buy, sell, and bid on items, as well as track price changes over a period, provide news on any given store, and some security elements to mitigate bots and scammer via captcha and unique user ID’s.
 Users will self-enforce good use through a rating system, where sellers are rated post-transaction to encourage legitimate sales and satisfied customers. 
 Users can create accounts, customize their profiles, write descriptions, and list contact information.
-“White Market” uses Django for the web framework, Flask for the front-end, and SQLite for the database.
+“White Market” uses Django for the web framework, HTML and CSS for the front-end, and SQLite for the database.
 Our initial scope is focused on trading collectible cards, such as Pokémon and baseball cards.  However, our platform is designed to host different storefronts for a wide range of collectibles, both tangible and digital. 
