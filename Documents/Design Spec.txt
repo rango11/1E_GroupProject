@@ -1,5 +1,5 @@
 App name: White Market
-
+ 
 1. Overview
 Our trading platform is a web-based application that allows users to trade tangible and digital collectibles. It offers the functionality to buy, sell, and trade items, as well as track price changes. Users can create accounts, customize their profiles, and engage with a community of collectors and traders.
 
