@@ -20,7 +20,5 @@ from django.conf.urls.static import static
 from rango import views
 
 urlpatterns = [
-    path('', views.index, name='index'), #defaults the lack of a specified url to home
-    path('rango/', include('rango.urls')), #maps the possible urls to the names of the views
-    path('admin/', admin.site.urls), # maps all the respective admin site urls
+    path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

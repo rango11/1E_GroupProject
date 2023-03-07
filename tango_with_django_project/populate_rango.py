@@ -3,9 +3,13 @@ import random
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','tango_with_django_project.settings')
 
 import django
-
+from django.db import models
 django.setup()
-from rango.models import Category, Page
+from rango.models import Users, Seller,Stores, Items, Tags, Bids
+import datetime
+from django.utils import timezone
+import pytz
+
 
 def populate():
  # First, we will create lists of dictionaries containing the pages
@@ -14,68 +18,57 @@ def populate():
  # This might seem a little bit confusing, but it allows us to iterate
  # through each data structure, and add the data to our models.
 
-    python_pages = [
-        {'title': 'Official Python Tutorial',
-        'url':'http://docs.python.org/3/tutorial/',},
-        {'title':'How to Think like a Computer Scientist',
-        'url':'http://www.greenteapress.com/thinkpython/'},
-        {'title':'Learn Python in 10 Minutes',
-        'url':'http://www.korokithakis.net/tutorials/python/'} ]
+    #usr1=Users(1,"bob","absdefg",None,"","bob@gmail.com","01234234234")
+    #usr2=Users(2,"marla","hijkmlm",None,"","marla@gmail.com","12310931231")
+    #users = [usr1,usr2]
 
-    django_pages = [
-        {'title':'Official Django Tutorial','url':'https://docs.djangoproject.com/en/2.1/intro/tutorial01/'},
-        {'title':'Django Rocks',
-        'url':'http://www.djangorocks.com/'},
-        {'title':'How to Tango with Django',
-        'url':'http://www.tangowithdjango.com/'} ]
+    #users 1 wont be a seller, user 2 will be a seller
+    usr1=Users.objects.get_or_create(username="bob",password="absdefg",profilePicture=None,description="",email="bob@gmail.com",phoneNo="01234234234")[0]
+    usr1.save()
+    usr2=Users.objects.get_or_create(username="marla",password="hijkmlm",profilePicture=None,description="aa",email="marla@gmail.com",phoneNo="12310931231")[0]
+    usr2.save()
 
-    other_pages = [
-        {'title':'Bottle',
-        'url':'http://bottlepy.org/docs/dev/'},
-        {'title':'Flask',
-        'url':'http://flask.pocoo.org'} ]
+    seller=Seller.objects.get_or_create(sellerName="marla",rating=3,users=usr2)[0]
+    seller.save()
+    #a store to make use of
+    store=Stores.objects.get_or_create(storeName="UMBRA_LLA",storeDescription="" )[0]
+    store.save()
 
-    cats = {'Python': {'pages': python_pages},
-        'Django': {'pages': django_pages},
-        'Other Frameworks': {'pages': other_pages} }
+    # an item for multiple bids, multiple items for a shop
+    date_modified =timezone.now()#datetime.date.today() #models.DateTimeField(auto_now_add=True)#the current time apparently? just to fill the dates
+    item1=Items.objects.get_or_create(itemName="umbrella", 
+                                sellerName=seller,username=usr2,
+                                storename=store,isDigital=False, 
+                                itemDescription="protects from rain innit",itemImage=None,
+                                condition="good", listedTime=date_modified,
+                                sellTime=date_modified, buyNowPrice=100.0
+                                )[0]
+    item1.save()
+    item2=Items.objects.get_or_create(itemName="football", 
+                                sellerName=seller,username=usr2,
+                                storename=store,isDigital=False, 
+                                itemDescription="is a football",itemImage=None,
+                                condition="excellent", listedTime=date_modified,
+                                sellTime=date_modified, buyNowPrice=10.0
+                                )[0]
+    item2.save()
 
-# If you want to add more categories or pages,
-# add them to the dictionaries above.
+    b1=Bids.objects.get_or_create(itemID=item1,userID=usr1,bidTime=date_modified,bidPrice=10)[0]
+    b1.save()
+    b2=Bids.objects.get_or_create(itemID=item1,userID=usr1,bidTime=date_modified,bidPrice=40)[0]
+    b2.save()
 
-# The code below goes through the cats dictionary, then adds each category,
-# and then adds all the associated pages for that category.
-    for cat, cat_data in cats.items():
-        c = add_cat(cat)
-        for p in cat_data['pages']:
-            add_page(c, p['title'], p['url'])
+    t1=Tags.objects.get_or_create(TagName="BigBrand",shopname=store)[0]
+    t1.save()
+    t2=Tags.objects.get_or_create(TagName="OnSale",shopname=store)[0]
+    t2.save()
 
-    # Print out the categories we have added.
-    for c in Category.objects.all():
-        for p in Page.objects.filter(category=c):
-            print(f'- {c}: {p}')
+    item1.tags.add(t1)
+    item1.tags.add(t2)
 
-def add_page(cat, title, url, views=0):
-    views = random.randint(1, 9)
-    p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url=url
-    p.views=views
-    p.save()
-    return p
-
-def add_cat(name):
-    if name == 'Python':
-        likes = 64
-        views = 128
-    elif name == 'Django':
-        likes = 32
-        views = 64
-    elif name == 'Other Frameworks':
-        likes = 16
-        views = 32
-    c = Category.objects.get_or_create(name=name, likes = likes, views = views)[0]
-    c.save()
-    return c
-
+    item2.tags.add(t1)
+    
+    
 # Start execution here!
 if __name__ == '__main__':
     print('Starting Rango population script...')
