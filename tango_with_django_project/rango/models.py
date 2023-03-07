@@ -74,7 +74,7 @@ class Items(models.Model):
     condition = models.CharField(max_length=10)
     listedTime = models.DateTimeField()
     sellTime = models.DateTimeField()
-    buyNowPrice = models.DecimalField(max_digits=10, decimal_places=10,)
+    buyNowPrice = models.FloatField(max_length=100, default=0.0)
     class Meta:
         verbose_name_plural = 'Items'
     def __str__(self):
@@ -89,7 +89,7 @@ class Bids(models.Model):
     itemID = models.ForeignKey(Items,on_delete=models.CASCADE)
     userID = models.ForeignKey(Users,on_delete=models.CASCADE)
     bidTime = models.DateTimeField()
-    bidPrice = models.DecimalField(max_digits=10, decimal_places=10,)
+    bidPrice = models.FloatField(max_length=100, default=0.0)
     class Meta:
         verbose_name_plural = 'Bids'
     def __str__(self):

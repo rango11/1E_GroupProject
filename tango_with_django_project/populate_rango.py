@@ -58,15 +58,20 @@ def populate():
     b2=Bids.objects.get_or_create(itemID=item1,userID=usr1,bidTime=date_modified,bidPrice=40)[0]
     b2.save()
 
-    t1=Tags.objects.get_or_create(TagName="BigBrand",shopname=store)[0]
+    t1=Tags.objects.get_or_create(tagName="BigBrand",shopname=store)[0]
     t1.save()
-    t2=Tags.objects.get_or_create(TagName="OnSale",shopname=store)[0]
+    t2=Tags.objects.get_or_create(tagName="OnSale",shopname=store)[0]
     t2.save()
+
+    #t3=Tags(tagName="BigBrand",shopname=store)
+    #t4=Tags(tagName="OnSale",shopname=store)
+    #t3.save()
+    #t4.save()
 
     item1.tags.add(t1)
     item1.tags.add(t2)
 
-    item2.tags.add(t1)
+    #item2.tags.add(t1)
     
     
 # Start execution here!
