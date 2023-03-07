@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE','tango_with_django_project.settin
 import django
 
 django.setup()
-from rango.models import Category, Page
+from rango.models import *
 
 def populate():
  # First, we will create lists of dictionaries containing the pages
