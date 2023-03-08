@@ -1,5 +1,4 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 # Create your models here.
 
 ratingChoices = [(1,1),(2,2),(3,3),(4,4),(5,5)]
