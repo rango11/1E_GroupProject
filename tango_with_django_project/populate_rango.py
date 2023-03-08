@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE','tango_with_django_project.settin
 import django
 from django.db import models
 django.setup()
-from rango.models import Users, Seller,Stores, Items, Tags, Bids
+from rango.models import Users, Sellers,Stores, Items, Tags, Bids
 import datetime
 from django.utils import timezone
 import pytz
@@ -28,7 +28,7 @@ def populate():
     usr2=Users.objects.get_or_create(username="marla",password="hijkmlm",profilePicture=None,description="aa",email="marla@gmail.com",phoneNo="12310931231")[0]
     usr2.save()
 
-    seller=Seller.objects.get_or_create(sellerName="marla",rating=3,users=usr2)[0]
+    seller=Sellers.objects.get_or_create(sellerName="marla",rating=3,users=usr2)[0]
     seller.save()
     #a store to make use of
     store=Stores.objects.get_or_create(storeName="UMBRA_LLA",storeDescription="" )[0]

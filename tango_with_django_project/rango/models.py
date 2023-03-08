@@ -22,7 +22,7 @@ class Users(models.Model):
     def __str__(self):
         return self.username
 
-class Seller(models.Model):
+class Sellers(models.Model):
     #userID = models.ForeignKey(Users,on_delete=models.CASCADE,primary_key=True)
     sellerName = models.CharField(max_length=30)
     rating = models.IntegerField(choices=ratingChoices,default=1)#error saying how max length was ignored for integerifeld
