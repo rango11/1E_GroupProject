@@ -1,17 +1,25 @@
+
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load rango_template_tags %}
 
-<html>
-    <head lang="en">
-        <meta charset="UTF-8" />
+<html lang="en">
+
+    <head>
+
         <title>
-            Rango - 
-            {% block title_block %}
-                How to Tango with Django!
-            {% endblock %}
+            White Market
         </title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
+        {% block css_block %}
+        {% endblock %}
     </head>
+
+    <div>
+        <h1 class="header">White Market</h1>
+    </div>
+  
     <body>
         <div>
         {% block body_block %}

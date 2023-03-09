@@ -37,7 +37,7 @@ basic-site: .CSS [Fin] [In progress]
 
 *Front-End Functionality:*
 	SideBar
-	Captcha box
+	Captcha box 
 
 *Django:*
 	Models [Anwar] [In progress]
