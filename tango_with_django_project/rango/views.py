@@ -2,97 +2,40 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from rango.models import Category, Page
+from rango.models import Users,Items,Sellers,Bids,Stores
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from datetime import datetime
 from django.urls import reverse
 
 def index(request):
-    category_list = Category.objects.order_by('-likes')[:5]
-    page_list = Page.objects.order_by('-views')[:5]
-
     context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    context_dict['categories'] = category_list
-    context_dict['pages'] = page_list
-    
-    visitor_cookie_handler(request)
 
     return render(request, 'rango/index.html', context=context_dict)
 
-def about(request):
+def showUser(request, user_name_slug):
     context_dict = {}
-    visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
+    try:
+        user = Users.objects.get(slug=user_name_slug)
+        context_dict['user'] = user
+    except Users.DoesNotExist:
+        context_dict['user'] = None
+    return render(request, 'rango/user.html', context=context_dict)
 
-    return render(request, 'rango/about.html', context=context_dict)
-
-def show_category(request, category_name_slug):
+def showListing(request, item_name_slug):
     context_dict = {}
-
     try:
-        category = Category.objects.get(slug=category_name_slug)
-        pages = Page.objects.filter(category=category)
-
-        context_dict['pages'] = pages
-        context_dict['category'] = category
-        
-    except Category.DoesNotExist:
-        context_dict['pages'] = None
-        context_dict['category'] = None
-    
-    return render(request, 'rango/category.html', context=context_dict)
-
-@login_required
-def add_category(request):
-    form = CategoryForm()
-
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-
-        if form.is_valid():
-            form.save(commit=True)
-            return redirect(reverse('rango:index'))
-        else:
-            print(form.errors)
-    
-    return render(request, 'rango/add_category.html', {'form': form})
-
-@login_required
-def add_page(request, category_name_slug):
-    try:
-        category = Category.objects.get(slug=category_name_slug)
-    except:
-        category = None
-
-    if category is None: #disallows adding page to nonexistent category
-        return redirect(reverse('rango:index'))
-
-    form = PageForm()
-
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-
-        if form.is_valid():
-            if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
-
-                return redirect(reverse('rango:show_category', kwargs={'category_name_slug': category_name_slug}))
-        else:
-            print(form.errors)
-    
-    context_dict = {'form': form, 'category': category}
-    return render(request, 'rango/add_page.html', context=context_dict)
+        item = Items.objects.get(slug=item_name_slug)
+        context_dict['item'] = item
+    except Items.DoesNotExist:
+        context_dict['item'] = None
+    return render(request, 'rango/item.html', context=context_dict)
 
 def register(request):
     registered = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        profile_form = UsersForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -103,7 +46,7 @@ def register(request):
             profile.user = user
 
             if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+                profile.profilePicture = request.FILES['profilePicture']
             
             profile.save()
             registered = True
@@ -149,15 +92,65 @@ def get_server_side_cookie(request, cookie, default_val=None):
         val = default_val
     return val
 
-def visitor_cookie_handler(request):
-    visits = int(get_server_side_cookie(request, 'visits', '1'))
-    last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
-    last_visit_time = datetime.strptime(last_visit_cookie[:-7], '%Y-%m-%d %H:%M:%S')
+@login_required #FIX THIS
+def myAccount(request,user_name_slug):
+    context_dict = {}
 
-    if (datetime.now() - last_visit_time).days > 0:
-        visits = visits + 1
-        request.session['last_visit'] = str(datetime.now())
-    else:
-        request.session['last_visit'] = last_visit_cookie
-    
-    request.session['visits'] = visits
+    context_dict['user'] = Users.objects.get(slug=user_name_slug)
+
+    return render(request, 'rango/user.html', context=context_dict)
+
+def listings(request,store_name_slug):
+    context_dict = {}
+    try:
+        item = Stores.objects.get(slug=item_name_slug)
+        context_dict['store'] = store
+    except Stores.DoesNotExist:
+        context_dict['store'] = None
+
+    return render(request, 'rango/listings.html', context=context_dict)
+
+
+@login_required
+def listItem(request):
+    form = itemForm()
+
+    if request.method == 'POST':
+        form = itemForm(request.POST)
+
+        if form.is_valid():
+            item = form.save(commit=False)
+
+            return redirect(reverse('rango:showListing', kwargs={'itemName': item.name}))
+        else:
+            print(form.errors)
+
+    return render(request, 'rango/listItem.html', {'form': form})
+
+def terms(request):
+    context_dict = {}
+    return render(request,'rango/terms.html',context = context_dict)
+
+def contact(request):
+    context_dict = {}
+    return render(request,'rango/contact.html',context = context_dict)
+
+def about(request):
+    context_dict = {}
+    return render(request,'rango/about.html',context = context_dict)
+
+def privacy(request):
+    context_dict = {}
+    return render(request,'rango/privacy.html',context = context_dict)
+
+def checkout(request,item_name_slug):
+    context_dict = {}
+
+    context_dict['item'] = Items.objects.get(slug=item_name_slug)
+    return render(request,'rango/checkout.html',context_dict)
+
+def transaction(request):
+    return render(request,'rango/transaction.html')
+
+def transactionComplete(request):
+    return render(request,'rango/transactionComplete.html')
