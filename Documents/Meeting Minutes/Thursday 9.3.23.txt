@@ -1,0 +1,21 @@
+Tasks:
+
+Anwar. Models, Views, URLS, Cookies, Error Handling
+	Deadline: View done for Thursday, reliant on clean project
+	
+Samir. Unit Tests 
+	Deadline: Population Script and Views Unit tests, reliant on Anwar's views
+Karl. Forms, API's
+	Deadline: Forms and API's done for Thursday, reliant on clean project
+	
+David. Database, Population Script, Graph
+
+Fin. CSS, Javacript, Clean Project, Images Items, Profile Photos
+	Deadline: Sat evening have clean project with submission branch, both with CSS.
+
+ToDo:
+Specify number of users, store items, for pop script
+
+Things to consider:
+	Bid Time-out: the date/time defined by the user for when the bidding is finished
+	settings and admin files.
