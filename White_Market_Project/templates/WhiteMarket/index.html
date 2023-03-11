@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+
+<head>
+<title>White Market</title>
+</head>
+
+<body>
+    <h1>Rango says...</h1>
+
+    <div>
+    hey there partner! <br />
+    <strong>{{ boldmessage }}</strong><br />
+    </div>
+
+    <!-- Below is the functionality for showing the top 5 liked catagories, likes code is dasabled in view.py -->
+    <div> 
+        {% if categories %}
+        <ul>
+            {% for category in categories %}
+            <li>
+            <!-- The following line is changed to add an HTML hyperlink -->
+            <a href="/whitemarket/category/{{ category.slug }}/">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+    <a href="/whitemarket/about/">About</a><br />
+    <img src="{% static 'images/test_image.jpeg' %}"
+            alt="Picture of Rango" />
+    <img src="{% static 'item_photos/item_photo_test.jpg' %}"
+            alt="Picture of Rango" />
+            <!-- need sorted, not from media files atm -->
+    <img src="{% static 'user_profile_photos/user_profile_photo_test.jpeg' %}"
+            alt="Picture of Rango" />
+            
+    </div>
+    <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" />
