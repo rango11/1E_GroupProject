@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rango.models import Users,Items,Sellers,Bids,Stores
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.forms import *
 from datetime import datetime
 from django.urls import reverse
 
@@ -54,7 +54,7 @@ def register(request):
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
+        profile_form = UsersForm()
     
     return render(request, 'rango/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
@@ -92,7 +92,7 @@ def get_server_side_cookie(request, cookie, default_val=None):
         val = default_val
     return val
 
-@login_required #FIX THIS
+@login_required #FIX THIS add cookies
 def myAccount(request,user_name_slug):
     context_dict = {}
 
@@ -113,10 +113,10 @@ def listings(request,store_name_slug):
 
 @login_required
 def listItem(request):
-    form = itemForm()
+    form = ItemForm()
 
     if request.method == 'POST':
-        form = itemForm(request.POST)
+        form = ItemForm(request.POST)
 
         if form.is_valid():
             item = form.save(commit=False)
@@ -129,7 +129,7 @@ def listItem(request):
 
 def terms(request):
     context_dict = {}
-    return render(request,'rango/terms.html',context = context_dict)
+    return render(request,'rango/terms.html',context=context_dict)
 
 def contact(request):
     context_dict = {}
