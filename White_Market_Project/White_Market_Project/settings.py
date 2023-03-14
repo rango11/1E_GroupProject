@@ -17,10 +17,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+ALLOWED_FILE_TYPES = ['jpeg', 'jpg','png']
 
 # For use in future
 USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
-ITEM_PHOTO_DIR = os.path.join(MEDIA_DIR, 'item_photos')
+USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
+
+ITEM_PHOTO_DIR = os.path.join(BASE_DIR, 'media/item_photos')
 
 
 
@@ -123,7 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -138,4 +140,4 @@ USER_PROFILE_PHOTO_ROOT = USER_PROFILE_PHOTO_DIR
 USER_PROFILE_PHOTO_URL = "/user_profile_photos/"
 
 ITEM_PHOTO_ROOT = ITEM_PHOTO_DIR
-ITEM_PHOTO_URL = "/item_photos/"
+ITEM_PHOTO_URL = "/media/item_photos/"

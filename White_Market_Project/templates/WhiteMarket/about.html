@@ -6,7 +6,7 @@
 
     <head>
         <title>whitemarket</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         {% block css_block %}
         {% endblock %}
     </head>
@@ -20,9 +20,9 @@
         <div>
             <a href="/whitemarket/">Index</a><br />
             <img src="{% static 'images/test_image.jpeg' %}" alt="Picture of Rango" />
-            <img src="{{ USER_PROFILE_PHOTO_URL }}user_profile_photo_test.jpeg" alt="Picture of a Cat" />
+            <img src="{{ MEDIA_URL }}user_profile_photos/user_profile_photo_test.jpeg" alt="Picture of a Cat" />
             <img src="{{ ITEM_PHOTO_URL }}item_photo_test.jpg" alt="Picture of a Cat" />
-            <img src="{{ MEDIA_URL }}user_profile_photo_test.jpeg" alt="Picture of a Cat" />
+            <img src="/media/test_image.jpeg" alt="Picture of a Cat" />
             <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" />
         </div>
     </body>
