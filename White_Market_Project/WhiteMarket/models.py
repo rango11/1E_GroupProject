@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 ratingChoices = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+CONDITION_CHOICES = [
+    ('new', 'New'),
+    ('used', 'Used'),
+    ('refurbished', 'Refurbished'),
+]
+
 
 
 # tagRecords = Tags.objects.all()
@@ -88,8 +94,8 @@ class Items(models.Model):
     itemDescription = models.CharField(max_length=128)
     itemImage = models.ImageField()
     # NEED TO ADD RESTRICTED CHOICE FOR ALL CONDITIONS:
-    condition = models.CharField(max_length=10)
-    listedTime = models.DateTimeField()
+    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
+    listedTime = models.DateTimeField(auto_now_add=True)
     sellTime = models.DateTimeField()
     buyNowPrice = models.DecimalField(decimal_places=2, max_digits=10)
     # tag = models.CharField(choices=tagNameList)
