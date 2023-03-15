@@ -34,4 +34,15 @@
 
     <div>
 <a href="{% url 'whitemarket:about' %}">About</a>
+
+    <img src="{% static 'images/test_image.jpeg' %}"
+            alt="Picture of Rango" />
+    <img src="{% static 'item_photos/item_photo_test.jpg' %}"
+            alt="Picture of Rango" />
+            <!-- need sorted, not from media files atm -->
+    <img src="{% static 'user_profile_photos/user_profile_photo_test.jpeg' %}"
+            alt="Picture of Rango" />
+            
+    </div>
+    <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat" />
     {% endblock %}

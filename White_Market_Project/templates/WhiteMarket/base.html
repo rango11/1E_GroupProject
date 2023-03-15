@@ -6,7 +6,10 @@
 
     <head lang = en>
         <meta charset="UTF-8" />
-        <title>White Market</title>
+        <title>White Market 
+            {% block title_block %}
+            {% endblock %}
+        </title>
         <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
         {% block css_block %}
         {% endblock %}
