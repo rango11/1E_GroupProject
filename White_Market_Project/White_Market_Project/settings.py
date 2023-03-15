@@ -17,15 +17,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-ALLOWED_FILE_TYPES = ['jpeg', 'jpg','png']
+ALLOWED_FILE_TYPES = ['jpeg', 'jpg', 'png']
 
 # For use in future
 USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
 USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
 
 ITEM_PHOTO_DIR = os.path.join(BASE_DIR, 'media/item_photos')
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -37,7 +35,6 @@ SECRET_KEY = '$@6=6p3#0z2s3m&-0r#%hn05!qk!_fa@4d5v+es*l+j!oizfhr'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,14 +71,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media', # Check/add this line!
-                ],
+                'django.template.context_processors.media',  # Check/add this line!
+            ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'White_Market_Project.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -92,7 +88,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -112,6 +107,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
