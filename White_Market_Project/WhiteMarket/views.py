@@ -1,111 +1,165 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from WhiteMarket.models import Category, Page
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from WhiteMarket.models import Users,Items,Sellers,Bids,Stores
+from WhiteMarket.forms import *
+from datetime import datetime
+from django.urls import reverse
 
 def index(request):
-    # Query the database for a list of ALL categories currently stored.
-    # Order the categories by the number of likes in descending order.
-    # Retrieve the top 5 only -- or all if less than 5.
-    # Place the list in our context_dict dictionary (with our boldmessage!)
-    # that will be passed to the template engine.
-    # category_list = Category.objects.order_by('-likes')[:5]
     context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    # context_dict['categories'] = category_list 
-    context_dict['categories'] = None 
 
-
-    # Render the response and send it back!
     return render(request, 'whitemarket/index.html', context=context_dict)
 
-def about(request):
-    return render(request, 'whitemarket/about.html')
+def showUser(request, user_name_slug):
+    context_dict = {}
+    try:
+        user = Users.objects.get(slug=user_name_slug)
+        context_dict['user'] = user
+    except Users.DoesNotExist:
+        context_dict['user'] = None
+    return render(request, 'whitemarket/user.html', context=context_dict)
 
-def contact(request):
-    return render(request, 'whitemarket/contact.html')
-
-def privacy_and_security(request):
-    return render(request, 'whitemarket/privacy-andsecuirty.html')
+def showListing(request, item_name_slug):
+    context_dict = {}
+    try:
+        item = Items.objects.get(slug=item_name_slug)
+        context_dict['item'] = item
+    except Items.DoesNotExist:
+        context_dict['item'] = None
+    return render(request, 'whitemarket/item.html', context=context_dict)
 
 def register(request):
-    return render(request, 'whitemarket/register.html')
+    registered = False
 
-def login(request):
-    return render(request, 'whitemarket/login.html')
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = UsersForm(request.POST)
 
-def page_not_found(request):
-    return render(request, 'whitemarket/page_not_found.html')
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
 
-def show_category(request, category_name_slug):
-    # Create a context dictionary which we can pass
-    # to the template rendering engine.
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.profilePicture = request.FILES['profilePicture']
+            
+            profile.save()
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form = UserForm()
+        profile_form = UsersForm()
+    
+    return render(request, 'whitemarket/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('whitemarket:index'))
+            else:
+                return HttpResponse("Your whitemarket account is disabled.")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'whitemarket/login.html')
+
+@login_required
+def restricted(request):
+    return render(request, 'whitemarket/restricted.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('whitemarket:index'))
+
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
+@login_required #FIX THIS add cookies
+def myAccount(request,user_name_slug):
     context_dict = {}
 
+    context_dict['user'] = Users.objects.get(slug=user_name_slug)
+
+    return render(request, 'whitemarket/user.html', context=context_dict)
+
+def listings(request,store_name_slug):
+    context_dict = {}
     try:
-        # Can we find a category name slug with the given name?
-        # If we can't, the .get() method raises a DoesNotExist exception.
-        # The .get() method returns one model instance or raises an exception.
-        category = Category.objects.get(slug=category_name_slug)
-        # Retrieve all of the associated pages.
-        # The filter() will return a list of page objects or an empty list.
-        pages = Page.objects.filter(category=category)
-        # Adds our results list to the template context under name pages.
-        context_dict['pages'] = pages
-        # We also add the category object from
-        # the database to the context dictionary.
-        # We'll use this in the template to verify that the category exists.
-        context_dict['category'] = category
-        
-    except Category.DoesNotExist:
-        # We get here if we didn't find the specified category.
-        # Don't do anything -
-        # the template will display the "no category" message for us.
-        context_dict['category'] = None
-        context_dict['pages'] = None
-        # Go render the response and return it to the client.
-    return render(request, 'whitemarket/category.html', context=context_dict)
+        item = Stores.objects.get(slug=item_name_slug)
+        context_dict['store'] = store
+    except Stores.DoesNotExist:
+        context_dict['store'] = None
 
-# def add_category(request):
-#     form = CategoryForm()
+    return render(request, 'whitemarket/listings.html', context=context_dict)
 
-#     if request.method == 'POST':
-#         form = CategoryForm(request.POST)
 
-#         if form.is_valid():
-#             form.save(commit=True)
-#             return redirect('/whitemarket/')
-#         else:
-#             print(form.errors)
-    
-#     return render(request, 'whitemarket/add_category.html', {'form': form})
+@login_required
+def listItem(request):
+    form = ItemForm()
 
-# def add_page(request, category_name_slug):
-#     try:
-#         category = Category.objects.get(slug=category_name_slug)
-#     except:
-#         category = None
-    
-#     # You cannot add a page to a Category that does not exist... DM
-#     if category is None:
-#         return redirect('/whitemarket/')
+    if request.method == 'POST':
+        form = ItemForm(request.POST)
 
-#     form = PageForm()
+        if form.is_valid():
+            item = form.save(commit=False)
 
-#     if request.method == 'POST':
-#         form = PageForm(request.POST)
+            return redirect(reverse('whitemarket:showListing', kwargs={'itemName': item.name}))
+        else:
+            print(form.errors)
 
-#         if form.is_valid():
-#             if category:
-#                 page = form.save(commit=False)
-#                 page.category = category
-#                 page.views = 0
-#                 page.save()
+    return render(request, 'whitemarket/listItem.html', {'form': form})
 
-#                 return redirect(reverse('whitemarket:show_category', kwargs={'category_name_slug': category_name_slug}))
-#         else:
-#             print(form.errors)  # This could be better done; for the purposes of TwD, this is fine. DM.
-    
-#     context_dict = {'form': form, 'category': category}
-#     return render(request, 'whitemarket/add_page.html', context=context_dict)
+def terms(request):
+    context_dict = {}
+    return render(request,'whitemarket/terms.html',context=context_dict)
 
+def contact(request):
+    context_dict = {}
+    return render(request,'whitemarket/contact.html',context = context_dict)
+
+def about(request):
+    context_dict = {}
+    return render(request,'whitemarket/about.html',context = context_dict)
+
+def privacy(request):
+    context_dict = {}
+    return render(request,'whitemarket/privacy.html',context = context_dict)
+
+def checkout(request,item_name_slug):
+    context_dict = {} #User makes this
+
+    context_dict['item'] = Items.objects.get(slug=item_name_slug)
+    return render(request,'whitemarket/checkout.html',context_dict)
+
+def transaction(request,item_name_slug,):
+    #Make the bid
+    context_dict["item"] = [item_name_slug]
+    return render(request,'whitemarket/transaction.html')
+
+def transactionComplete(request,item_name_slug,bid_name_slug):
+    #Complete the trade and adds the bid info to item, seller Rating
+
+    item = Items.objects.get(slug=item_name_slug)
+    bidRecords = Bids.objects.get(item.itemID)
+
+
+    #context_dict["item"] =
+    return render(request,'whitemarket/transactionComplete.html',context_dict)
