@@ -1,14 +1,9 @@
 from django.contrib import admin
-from rango.models import Users, Stores, Items, Tags, Bids,Sellers
+from rango.models import *
 
-
-
-#admin.site.register(Category, CategoryAdmin)
-#admin.site.register(Page, PageAdmin)
-#admin.site.register(UserProfile)
-admin.site.register(Users)
-admin.site.register(Stores)
-admin.site.register(Items)
-admin.site.register(Tags)
-admin.site.register(Bids)
-admin.site.register(Sellers)
+admin.register(Users)
+admin.register(Sellers)
+admin.register(Items)
+admin.register(Bids)
+admin.register(Stores)
+admin.register(Tags)

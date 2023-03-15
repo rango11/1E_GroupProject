@@ -2,39 +2,46 @@
 {% load staticfiles %}
 {% load rango_template_tags %}
 
-<html>
-    <head lang="en">
-        <meta charset="UTF-8" />
+<html lang="en">
+
+    <head>
+
         <title>
-            Rango - 
-            {% block title_block %}
-                How to Tango with Django!
-            {% endblock %}
+            White Market
         </title>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
+        {% block css_block %}
+        {% endblock %}
     </head>
+
+    <div>
+        <h1 class="header">White Market</h1>
+    </div>
+
     <body>
-        <div>
+        <div class="body">
         {% block body_block %}
         {% endblock %}
         </div>
-        <div>
-            {% block sidebar_block %}
-                {% get_category_list category %}
-            {% endblock %}
-        </div>
-        <hr />
-        <div>
-            <ul>
+        {% block sidebar_block %}
+        <div class="sidebar">
+
             {% if user.is_authenticated %}
-                <li><a href="{% url 'rango:restricted' %}">Restricted Page</a></li>
+                <li><a href="{% url 'rango:myAccount' %}">Account</a></li>
+                <li><a href="{% url 'rango:bids' %}">Bids</a></li>
+                <li><a href="{% url 'rango:transactions' %}">Transactions</a></li>
                 <li><a href="{% url 'rango:logout' %}">Logout</a></li>
-                <li><a href="{% url 'rango:add_category' %}">Add a New Category</a></li>
-            {% else %}
-                <li><a href="{% url 'rango:register' %}">Sign Up</a></li>
-                <li><a href="{% url 'rango:login' %}">Login</a></li>
             {% endif %}
+        </div>
+        {% endblock %}
+        <hr />
+        <div class = "footer">
+            <ul>
+                <li><a href="{% url 'rango:terms' %}">Legal</a></li>
                 <li><a href="{% url 'rango:about' %}">About</a></li>
-                <li><a href="{% url 'rango:index' %}">Index</a></li>
+                <li><a href="{% url 'rango:contact' %}">Contact</a></li>
+                <li><a href="{% url 'rango:register' %}">Register</a></li>
             </ul>
         </div>
     </body>
