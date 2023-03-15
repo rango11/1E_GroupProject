@@ -144,13 +144,22 @@ def privacy(request):
     return render(request,'rango/privacy.html',context = context_dict)
 
 def checkout(request,item_name_slug):
-    context_dict = {}
+    context_dict = {} #User makes this
 
     context_dict['item'] = Items.objects.get(slug=item_name_slug)
     return render(request,'rango/checkout.html',context_dict)
 
-def transaction(request):
+def transaction(request,item_name_slug,):
+    #Make the bid
+    context_dict["item"] = [item_name_slug]
     return render(request,'rango/transaction.html')
 
-def transactionComplete(request):
-    return render(request,'rango/transactionComplete.html')
+def transactionComplete(request,item_name_slug,bid_name_slug):
+    #Complete the trade and adds the bid info to item, seller Rating
+
+    item = Items.objects.get(slug=item_name_slug)
+    bidRecords = Bids.objects.get(item.itemID)
+
+
+    #context_dict["item"] =
+    return render(request,'rango/transactionComplete.html',context_dict)

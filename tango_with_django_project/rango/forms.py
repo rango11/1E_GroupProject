@@ -50,3 +50,9 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Items
         fields = ()
+
+
+class BidForm(forms.ModelForm):
+    class Meta:
+        model = Bids
+        fields = ()
