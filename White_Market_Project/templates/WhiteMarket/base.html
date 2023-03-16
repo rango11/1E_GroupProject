@@ -66,11 +66,14 @@
       <!-- Populate with favourited stores -->
     </ul>
   
-    <div class="bottom-links">
+    <div class="bottom-links"> 
+      <!-- to fix -->
       <a href="#">Account</a>
-      <a href="#">Bids</a>
+      <a href="{% url 'whitemarket:checkout' %}">Basket</a>
+      <!-- to fix -->
       <a href="#">Transactions</a>
-      <a href="#" style="padding-bottom: 2rem;">Logout</a>
+      <!-- to fix -->
+      <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
     </div>
   </div>
   
@@ -114,10 +117,10 @@
 
     <footer>
         <div class="footer-left">
-          <a href="#">Legal</a>
+          <a href="{% url 'whitemarket:terms' %}">Legal</a>
           <a href="{% url 'whitemarket:about' %}">About</a>
-          <a href="#">Contact</a>
-          <a href="#">Register</a>
+          <a href="{% url 'whitemarket:contact' %}">Contact</a>
+          <a href="{% url 'whitemarket:register' %}">Register</a>
         </div>
         <div class="footer-right">
             <p style="margin: 0.5rem;">White Market © Trademark 2023</p>
