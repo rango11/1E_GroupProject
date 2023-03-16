@@ -39,7 +39,7 @@ class UserProfile(models.Model):
 
 
 class Sellers(models.Model):
-    userID = models.OneToOneField("UserProfile", on_delete=models.CASCADE, primary_key=True)
+    userID = models.OneToOneField("User", on_delete=models.CASCADE, primary_key=True)
     sellerName = models.CharField(max_length=30)
     rating = models.IntegerField(choices=ratingChoices, default=1)
 
@@ -87,13 +87,12 @@ class Items(models.Model):
     itemID = models.BigAutoField(unique=True, primary_key=True)
     itemName = models.CharField(max_length=30)  # Added this, so I can return something with __str__
     sellerID = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="sellerID")
-    userID = models.ForeignKey("UserProfile", on_delete=models.CASCADE, related_name="itemUserID")
+    userID = models.ForeignKey("User", on_delete=models.CASCADE, related_name="itemUserID")
     sellerName = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="itemSellerName")
     username = models.ForeignKey("UserProfile", on_delete=models.CASCADE, related_name="username")
     isDigital = models.BooleanField()
     itemDescription = models.CharField(max_length=128)
     itemImage = models.ImageField()
-    # NEED TO ADD RESTRICTED CHOICE FOR ALL CONDITIONS:
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     listedTime = models.DateTimeField(auto_now_add=True)
     sellTime = models.DateTimeField()
