@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from WhiteMarket.models import UserProfile, Items
 
 
-
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
