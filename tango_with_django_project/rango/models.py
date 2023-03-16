@@ -4,11 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 ratingChoices = [(1,1),(2,2),(3,3),(4,4),(5,5)]
-tagRecords = Tags.objects.all()
-tagNameList = []
 
-for tags.tagName in tagRecords:
-    tagNameList.append(tags.tagName)
 
 class Users(models.Model):
 
@@ -67,7 +63,14 @@ class Stores(models.Model):
     #storeTag3 = models.AutoField()
     #storeTag4 = models.AutoField()
     #storeTag5 = models.AutoField()
-    tag = models.CharField(choices=tagNameList)
+    
+    # tagRecords = Tags.objects.all()
+    # tagNameList = []
+
+    # for t in tagRecords:
+    #     tagNameList.append(t.tagName)
+    
+    # tag = models.CharField(choices=tagNameList)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -93,7 +96,14 @@ class Items(models.Model):
     listedTime = models.DateTimeField()
     sellTime = models.DateTimeField()
     buyNowPrice = models.DecimalField(decimal_places=2,max_digits=10)
-    tag = models.CharField(choices=tagNameList)
+
+    # tagRecords = Tags.objects.all()
+    # tagNameList = []
+
+    # for t in tagRecords:
+    #     tagNameList.append(t.tagName)
+
+    # tag = models.CharField(choices=tagNameList)
     #otherTag1 = models.AutoField() #Cant be foreign key to tags, only store
     #otherTag2 = models.AutoField()
     #otherTag3 = models.AutoField()

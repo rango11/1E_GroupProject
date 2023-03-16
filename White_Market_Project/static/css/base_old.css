@@ -1,0 +1,302 @@
+/* ~~~~~~~~~~~~~~~~~~~~~~FONTS~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+@font-face {
+  font-family: 'Roboto';
+  src: url('roboto.eot'); /* IE9 Compat Modes */
+  src: url('roboto.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  /* url('roboto.woff') format('woff'), 
+  url('roboto.ttf')  format('truetype'),  */
+  url('roboto.svg#svgFontName') format('svg'); /* Legacy iOS */
+  font-weight: 300; /*Light*/
+  font-style: normal;
+}
+
+/* use the font */
+body,h1,h2,h3,p {
+  font-family: 'Roboto', sans-serif;
+  color: #F1F1F1;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~BODY/MAIN~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+body{
+  background-color: #333;
+}
+.body{
+  padding: 7rem 0rem 5rem 0rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~HEADER~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.header {
+  position: fixed;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  background-color: #F1F1F1;
+  padding: 1rem;
+  z-index: 1001;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  padding-right: 2rem;
+}
+
+/* Logo styles */
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* Title styles */
+.title {
+  margin-top: .5rem;
+  font-size: 24px;
+  color: #333;
+  margin-right: 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Search form styles */
+.search-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Search input styles */
+.search-input {
+  border: none;
+  outline: none;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Submit button styles */
+.submit-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 0.5rem;
+  outline: none;
+}
+
+.image-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.image-link a {
+  display: flex;
+  align-items: center;
+}
+
+.image-link img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-link:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(170, 170, 170, 0.3); /* Change color and opacity as desired */
+  pointer-events: none;
+}
+
+.image-link:hover {
+  cursor: pointer;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~SIDEBAR~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #272727;
+  color: white;
+  white-space: nowrap;
+  overflow-x: hidden;
+  transition: 0.3s;
+  border-right: 1px solid white;
+}
+
+.sidebar h4 {
+  padding: 1rem;
+}
+
+.list-group {
+  margin-bottom: 1rem;
+}
+
+.scrollable {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.bottom-links {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.bottom-links a {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #F1F1F1;
+}
+
+.toggle-sidebar {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: 0.3s;
+}
+
+.toggle-sidebar:focus {
+  outline: none;
+}
+
+#sidebar-top-element{
+  padding: 6rem 1rem 1rem 1rem;
+}
+
+#toggle-sidebar {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.toggle-icon {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 15px;
+  border-color: transparent transparent transparent #F1F1F1;
+}
+
+.toggle-icon::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -13px;
+  border-style: solid;
+  border-width: 6px 0 6px 9px;
+  border-color: transparent transparent transparent #333;
+  }
+
+#toggle-sidebar.opened .toggle-icon {
+  transform: scaleX(-1);
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~FOOTER~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(19, 19, 19);
+  display: flex;
+  justify-content: space-between;
+  padding: 0rem 2rem;
+  color: white;
+  box-sizing: border-box;
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-left a {
+  color: white;
+  text-decoration: none;
+  margin-right: 1rem;
+}
+
+.footer p{
+  margin: 0rem;
+}
+
+.footer-left a:hover {
+  text-decoration: underline;
+}
+/* ~~~~~~~~~~~~~~~~~~~~~~BASIC PAGE LAYOUT~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grid-item {
+  padding: 20px;
+}
+
+.about-page {
+  grid-column: 1 / span 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.centered-element {
+  /* Add desired styling for the centered element */
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~USER~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* .user{} */
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~ITEM~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* .item{} */
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~RESPONSIVE~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+@media screen and (max-width: 600px) {
+  .store_column {
+      width: 100%;
+  }
+
+  .sidebar {
+      width :150px; 
+  }
+
+  /* adjust toggle button position for small screens */
+  .sidebar_toggle {
+      left :150px; /* same as reduced sidebar width */
+  }
+}
+
+
+
+

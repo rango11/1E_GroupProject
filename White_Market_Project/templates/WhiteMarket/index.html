@@ -7,31 +7,48 @@
  - Home
 {% endblock %}
 
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
 
 {% block body_block %}
-    <h1>White Market</h1>
+<div class="container">
+  <div class="items-container">
+    <!-- Item 1 -->
+    <a href="#" class="item-box">
+      <img src="{{ MEDIA_URL }}/item_photos/item_photo_test.jpg" alt="Item 1">
+      <div class="item-info">
+        <span class="item-name">Item 1</span>
+        <span class="item-price">$100</span>
+      </div>
+      <div class="item-seller">Seller: John Doe</div>
+    </a>
 
-    <div>
-    hey there partner! <br />
-    <strong>{{ boldmessage }}</strong><br />
-    </div>
+    <!-- Item 2 -->
+    <a href="#" class="item-box">
+        <img src="item-image-url-1.jpg" alt="Item 2">
+        <div class="item-info">
+          <span class="item-name">Item 2</span>
+          <span class="item-price">$101</span>
+        </div>
+        <div class="item-seller">Seller: John Doe</div>
+      </a>
 
-    <!-- Below is the functionality for showing the top 5 liked catagories, likes code is dasabled in view.py -->
-    <div> 
-        {% if categories %}
-        <ul>
-            {% for category in categories %}
-            <li>
-            <!-- The following line is changed to add an HTML hyperlink -->
-            <a href="/whitemarket/category/{{ category.slug }}/">{{ category.name }}</a>
-            </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-        <strong>There are no categories present.</strong>
-        {% endif %}
-    </div>
+      <!-- Item 3 -->
+      <a href="#" class="item-box">
+        <img src="item-image-url-1.jpg" alt="Item 3">
+        <div class="item-info">
+          <span class="item-name">Item 3</span>
+          <span class="item-price">$102</span>
+        </div>
+        <div class="item-seller">Seller: John Doe</div>
+      </a>
+  </div>
 
-    <div>
-<a href="{% url 'whitemarket:about' %}">About</a>
-    {% endblock %}
+  <!-- Graph -->
+  <div class="graph-container">
+    <canvas id="graph"></canvas>
+  </div>
+  <script src="{% static 'JavaScript/indexJS.js' %}"></script>
+</div>
+{% endblock %}

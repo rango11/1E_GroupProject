@@ -2,22 +2,126 @@
 
 {% load staticfiles %}
 
-<html>
+<html lang="en">
 
-    <head lang = en>
+    <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>White Market 
+            <!-- Add dynamic subtitles -->
             {% block title_block %}
             {% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Popper.js library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Our styles -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base_old.css' %}">
+        <!-- Bring in page specific css -->
         {% block css_block %}
         {% endblock %}
     </head>
 
+    <header class="header">
+        <div class="header-left">
+          <div class="image-link">
+            <a href="{% url 'whitemarket:index' %}">
+              <img class="logo" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
+              <h1 class="title">White Market</h1>
+            </a>
+        </div>
+    </div>
+        <!-- code for the search bar -->
+        
+        <form class="search-form">
+          <input class="search-input" type="search" placeholder="Search" aria-label="Search">
+          <button class="submit-btn" type="submit">Search</button>
+        </form>
+        
+      </header>
+
+  
+
     <body>
-        {% block body_block %}
+
+        <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+    <h4 id="sidebar-top-element">Previous Stores</h4>
+    <ul id="previous-stores" class="list-group">
+      <!-- Populate with top 5 previously visited stores -->
+    </ul>
+  
+    <h4>Stores</h4>
+    <ul id="stores" class="list-group scrollable">
+      <!-- Populate with stores from SQLite database -->
+    </ul>
+  
+    <h4>Favourites</h4>
+    <ul id="favourites" class="list-group">
+      <!-- Populate with favourited stores -->
+    </ul>
+  
+    <div class="bottom-links">
+      <a href="#">Account</a>
+      <a href="#">Bids</a>
+      <a href="#">Transactions</a>
+      <a href="#" style="padding-bottom: 2rem;">Logout</a>
+    </div>
+  </div>
+  
+  <!-- Toggle Button -->
+
+  <button id="toggle-sidebar" class="btn">
+    <span class="toggle-icon"></span>
+  </button>
+
+        <div class="body">
+            {% block body_block %}
+            {% endblock %}
+        </div>
+
+        {% block sidebar_block %}
+        <div class="sidebar">
+            {% if user.is_authenticated %}
+
+            {% endif %}
+        </div>
         {% endblock %}
+
+        <div class = "footer">
+            <ul>
+
+            </ul>
+        </div>
+
+        <!-- The script for the search bar -->
+        <script>
+            document.querySelector("form.search-form").addEventListener("submit", function (event) {
+              event.preventDefault(); // Prevent the form from being submitted and the page from reloading
+              const searchQuery = document.querySelector("input[type='search']").value;
+              alert("Searching for: " + searchQuery);
+            });
+          </script>
+
+          <script src="{% static 'JavaScript/sidebarJS.js' %}"></script>
+
     </body>
+
+    <footer>
+        <div class="footer-left">
+          <a href="#">Legal</a>
+          <a href="{% url 'whitemarket:about' %}">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Register</a>
+        </div>
+        <div class="footer-right">
+            <p style="margin: 0.5rem;">White Market © Trademark 2023</p>
+        </div>
+      </footer>
 
 </html>
