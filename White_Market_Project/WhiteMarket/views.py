@@ -152,14 +152,15 @@ def checkout(request,item_name_slug):
 def transaction(request,item_name_slug,):
     #Make the bid
     context_dict["item"] = [item_name_slug]
+
+
     return render(request,'whitemarket/transaction.html')
 
 def transactionComplete(request,item_name_slug,bid_name_slug):
-    #Complete the trade and adds the bid info to item, seller Rating
+    #Complete the trade and adds the bid info to item
 
     item = Items.objects.get(slug=item_name_slug)
     bidRecords = Bids.objects.get(item.itemID)
-
 
     #context_dict["item"] =
     return render(request,'whitemarket/transactionComplete.html',context_dict)
