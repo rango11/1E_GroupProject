@@ -36,9 +36,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.user.usernameName)
+        super(UserProfile, self).save(*args, **kwargs)
+
 
 class Sellers(models.Model):
-    userID = models.OneToOneField("User", on_delete=models.CASCADE, primary_key=True)
+    userID = models.OneToOneField("UserProfile", on_delete=models.CASCADE, primary_key=True)
     sellerName = models.CharField(max_length=30)
     rating = models.IntegerField(choices=ratingChoices, default=1)
 
@@ -86,7 +90,7 @@ class Items(models.Model):
     itemID = models.BigAutoField(unique=True, primary_key=True)
     itemName = models.CharField(max_length=30)  # Added this, so I can return something with __str__
     sellerID = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="sellerID")
-    userID = models.ForeignKey("User", on_delete=models.CASCADE, related_name="itemUserID")
+    #userID = models.ForeignKey("User", on_delete=models.CASCADE, related_name="itemUserID")
     sellerName = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="itemSellerName")
     username = models.ForeignKey("UserProfile", on_delete=models.CASCADE, related_name="username")
     isDigital = models.BooleanField()

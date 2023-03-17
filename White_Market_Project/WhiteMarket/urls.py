@@ -13,9 +13,9 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('restricted/', views.restricted, name='restricted'),
     path('logout/', views.user_logout, name='logout'),
-    path('listItem/', views.listItem, name='listItem'),
+    path('listItem/', views.list_item, name='listItem'),
     path('listings/<slug:store_name_slug>', views.listings, name='listings'),
-    path('listings/<slug:item_name_slug>', views.showListing, name='showListing'),
+    path('listings/<slug:item_name_slug>', views.show_listing, name='showListing'),
     path('user/<slug:user_name_slug>', views.showUser, name='showUser'),
     path('checkout/', views.checkout, name='checkout'),
     path('transaction/', views.transaction, name='transaction'),
@@ -23,4 +23,5 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('contact/', views.contact, name='contact'),
     path('privacy/', views.privacy, name='privacy'),
+
 ]

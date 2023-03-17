@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from WhiteMarket.models import Users,Items,Sellers,Bids,Stores
+from WhiteMarket.models import UserProfile,Items,Sellers,Bids,Stores
 from WhiteMarket.forms import *
 from datetime import datetime
 from django.urls import reverse
@@ -92,15 +92,15 @@ def myAccount(request, user_name):
 
     return render(request, 'whitemarket/myAccount.html', context=context_dict)
 
-# def listings(request,store_name_slug):
-#     context_dict = {}
-#     try:
-#         item = Stores.objects.get(slug=item_name_slug)
-#         context_dict['store'] = store
-#     except Stores.DoesNotExist:
-#         context_dict['store'] = None
-#
-#     return render(request, 'whitemarket/listings.html', context=context_dict)
+def listings(request,store_name_slug):
+    context_dict = {}
+    try:
+        store = Stores.objects.get(slug=store_name_slug)
+        context_dict['store'] = store
+    except Stores.DoesNotExist:
+        context_dict['store'] = None
+
+    return render(request, 'whitemarket/listings.html', context=context_dict)
 
 
 @login_required

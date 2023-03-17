@@ -54,6 +54,7 @@
     <h4 id="sidebar-top-element">Previous Stores</h4>
     <ul id="previous-stores" class="list-group">
       <!-- Populate with top 5 previously visited stores -->
+
     </ul>
   
     <h4>Stores</h4>
@@ -65,16 +66,20 @@
     <ul id="favourites" class="list-group">
       <!-- Populate with favourited stores -->
     </ul>
-  
-    <div class="bottom-links"> 
-      <!-- to fix -->
-      <a href="#">Account</a>
-      <a href="{% url 'whitemarket:checkout' %}">Basket</a>
-      <!-- to fix -->
-      <a href="#">Transactions</a>
-      <!-- to fix -->
-      <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
-    </div>
+
+        {% if user.is_authenticated %}
+                <div class="bottom-links">
+                    <a href="#">Account</a>
+                    <a href="{% url 'whitemarket:checkout' %}">Basket</a>
+                    <a href="#">Transactions</a>
+                    <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
+                </div>
+            {% else %}
+                <div class="bottom-links">
+                    <a href="{% url 'whitemarket:login' %}">Login</a>
+                </div>
+            {% endif %}
+
   </div>
   
   <!-- Toggle Button -->
@@ -90,9 +95,9 @@
 
         {% block sidebar_block %}
         <div class="sidebar">
-            {% if user.is_authenticated %}
 
-            {% endif %}
+
+
         </div>
         {% endblock %}
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from WhiteMarket.models import UserProfile, Items
+from WhiteMarket.models import *
 
 
 class UserForm(forms.ModelForm):
