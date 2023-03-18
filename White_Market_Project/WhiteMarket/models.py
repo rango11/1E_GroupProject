@@ -14,7 +14,7 @@ CONDITION_CHOICES = [
 
 
 # tagRecords = Tags.objects.all()
-# tagNameList = []
+# tagNameList = [] 
 #
 # for tags.tagName in tagRecords:
 #     tagNameList.append(tags.tagName)
