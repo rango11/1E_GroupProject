@@ -14,7 +14,7 @@ CONDITION_CHOICES = [
 
 
 # tagRecords = Tags.objects.all()
-# tagNameList = [] 
+# tagNameList = []
 #
 # for tags.tagName in tagRecords:
 #     tagNameList.append(tags.tagName)
@@ -25,7 +25,7 @@ class UserProfile(models.Model):
                                 on_delete=models.CASCADE)  # Links to User model to allow user authentication
     # functionality
 
-    userID = models.BigAutoField(unique=True, primary_key=True)
+    #userID = models.BigAutoField(unique=True, primary_key=True)
     profilePicture = models.ImageField(upload_to='profile_images', blank=True)
     description = models.CharField(max_length=128)
     phoneNo = models.CharField(max_length=11)
@@ -42,9 +42,11 @@ class UserProfile(models.Model):
 
 
 class Sellers(models.Model):
-    userID = models.OneToOneField("UserProfile", on_delete=models.CASCADE, primary_key=True)
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    
     sellerName = models.CharField(max_length=30)
     rating = models.IntegerField(choices=ratingChoices, default=1)
+    #userID = models.OneToOneField("UserProfile", on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return self.sellerName
@@ -52,15 +54,18 @@ class Sellers(models.Model):
 
 class Tags(models.Model):
     tagID = models.AutoField(primary_key=True, unique=True)
-    tagName = models.CharField(max_length=30)
+    tagName = models.CharField(max_length=30) 
 
 
 class Bids(models.Model):
     bidID = models.BigAutoField(unique=True, primary_key=True)
+
     itemID = models.ForeignKey("Items", on_delete=models.CASCADE)
-    userID = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name="%(class)s_usernames")
+
     bidTime = models.DateTimeField()
     bidPrice = models.DecimalField(decimal_places=2, max_digits=10)
+    #userID = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.bidID
@@ -68,6 +73,7 @@ class Bids(models.Model):
 
 class Stores(models.Model):
     storeID = models.BigAutoField(unique=True, primary_key=True)
+    
     storeName = models.CharField(max_length=30)
     storeDescription = models.CharField(max_length=128)
     # storeTag1 = models.AutoField() #Cant have them as foreign keys to Tags
@@ -88,11 +94,12 @@ class Stores(models.Model):
 
 class Items(models.Model):
     itemID = models.BigAutoField(unique=True, primary_key=True)
+
     itemName = models.CharField(max_length=30)  # Added this, so I can return something with __str__
     sellerID = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="sellerID")
-    #userID = models.ForeignKey("User", on_delete=models.CASCADE, related_name="itemUserID")
     sellerName = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="itemSellerName")
-    username = models.ForeignKey("UserProfile", on_delete=models.CASCADE, related_name="username")
+    username = models.ForeignKey(User, on_delete=models.CASCADE, related_name="%(class)s_usernames")
+
     isDigital = models.BooleanField()
     itemDescription = models.CharField(max_length=128)
     itemImage = models.ImageField()
@@ -100,6 +107,8 @@ class Items(models.Model):
     listedTime = models.DateTimeField(auto_now_add=True)
     sellTime = models.DateTimeField()
     buyNowPrice = models.DecimalField(decimal_places=2, max_digits=10)
+
+    #userID = models.ForeignKey("User", on_delete=models.CASCADE, related_name="itemUserID")
     # tag = models.CharField(choices=tagNameList)
     # otherTag1 = models.AutoField() #Cant be foreign key to tags, only store
     # otherTag2 = models.AutoField()
