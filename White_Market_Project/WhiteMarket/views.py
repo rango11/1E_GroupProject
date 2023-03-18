@@ -6,6 +6,7 @@ from WhiteMarket.models import UserProfile,Items,Sellers,Bids,Stores
 from WhiteMarket.forms import *
 from datetime import datetime
 from django.urls import reverse
+from WhiteMarket.forms import UserForm, UserProfileForm, ItemForm
 
 def index(request):
     context_dict = {}
