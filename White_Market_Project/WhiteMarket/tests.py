@@ -17,16 +17,18 @@ from WhiteMarket import forms
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}==============={os.linesep}TEST FAILURE = ({os.linesep}==============={os.linesep})"
 FAILURE_FOOTER = f"{os.linesep}"
 
-# def create_user_object():
+def create_user_object():
+    """
+    Helper function to create a User object.
+    """
+    user = User.objects.get_or_create(username='testuser',
+                                      first_name='Test',
+                                      last_name='User',
+                                      email='test@test.com')[0]
+    user.set_password('testabc123')
+    user.save()
 
-#     user = Users.objects.get_or_create(username='testuser',
-#                                     password = 'testabc123'
-#                                     first_name='Test',
-#                                     last_name='User',
-#                                     email='test@test.com')[0]
-#     user.save()
-
-#     return user
+    return user
 
 # class SellerTests(TestCase):
 #     def test_slug_line_creation(self):
@@ -109,6 +111,61 @@ class RegistrationTests(TestCase):
         request = self.client.post(reverse('whitemarket:register'), post_data)
         content = request.content.decode('utf-8')
         self.assertTrue(self.client.login(username='qwerty', password='test123'), f"{FAILURE_HEADER}We couldn't log in the user we created using your registration form. Please check your implementation of the register() view. Are you missing a .save() call?{FAILURE_FOOTER}")
+
+class LoginTests(TestCase):
+    def test_login_functionality(self):
+        """
+        Tests the login functionality. A user should be able to log in.
+        """
+        user_object = create_user_object()
+
+        response = self.client.post(reverse('whitemarket:login'), {'username': 'testuser', 'password': 'testabc123'})
+        
+        try:
+            self.assertEqual(user_object.id, int(self.client.session['_auth_user_id']), f"{FAILURE_HEADER}We attempted to log a user in with an ID of {user_object.id}, but instead logged a user in with an ID of {self.client.session['_auth_user_id']}. Please check your login() view.{FAILURE_FOOTER}")
+        except KeyError:
+            self.assertTrue(False, f"{FAILURE_HEADER}When attempting to log in with your login() view, it didn't seem to log the user in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
+    
+    def test_login_template(self):
+        """
+        Does the login.html template exist in the correct place, and does it make use of template inheritance?
+        """
+        template_base_path = os.path.join(settings.TEMPLATE_DIR, 'whitemarket')
+        template_path = os.path.join(template_base_path, 'login.html')
+        self.assertTrue(os.path.exists(template_path), f"{FAILURE_HEADER}We couldn't find the 'login.html' template in the 'templates/whitemarket/' directory. Did you put it in the right place?{FAILURE_FOOTER}")
+
+class LogoutTests(TestCase):
+    """
+    A few tests to check the functionality of logging out. Does it work? Does it actually log you out?
+    """
+    def test_bad_request(self):
+        """
+        Attepts to log out a user who is not logged in.
+        This should according to the book redirect you to the login page.
+        """
+        response = self.client.get(reverse('whitemarket:logout'))
+        self.assertTrue(response.status_code, 302)
+        self.assertTrue(response.url, reverse('whitemarket:login'))
+
+    def test_good_request(self):
+        """
+        Attempts to log out a user who IS logged in.
+        This should succeed -- we should be able to login, check that they are logged in, logout, and perform the same check.
+        """
+        user_object = create_user_object()
+        self.client.login(username='testuser', password='testabc123')
+
+        try:
+            self.assertEqual(user_object.id, int(self.client.session['_auth_user_id']), f"{FAILURE_HEADER}We attempted to log a user in with an ID of {user_object.id}, but instead logged a user in with an ID of {self.client.session['_auth_user_id']}. Please check your login() view. This happened when testing logout functionality.{FAILURE_FOOTER}")
+        except KeyError:
+            self.assertTrue(False, f"{FAILURE_HEADER}When attempting to log a user in, it failed. Please check your login() view and try again.{FAILURE_FOOTER}")
+        
+        # Now lot the user out. This should cause a redirect to the homepage.
+        response = self.client.get(reverse('whitemarket:logout'))
+        self.assertEqual(response.status_code, 302, f"{FAILURE_HEADER}Logging out a user should cause a redirect, but this failed to happen. Please check your logout() view.{FAILURE_FOOTER}")
+        self.assertTrue('_auth_user_id' not in self.client.session, f"{FAILURE_HEADER}Logging out with your logout() view didn't actually log the user out! Please check yout logout() view.{FAILURE_FOOTER}")
+
+
 
 # class UserTests(TestCase):
 #     def test_sign_up_form(self):
