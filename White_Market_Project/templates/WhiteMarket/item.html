@@ -1,0 +1,31 @@
+{% extends 'whitemarket/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Item
+{% endblock %}
+
+{% block body_block %}
+
+    {{ item.itemName }}
+    {{ item.sellerName }}
+    {{ item.itemName  }}
+    {{ item.isDigital }}
+    {{ item.itemDescription }}
+    {{ item.listedTime }}
+    {{ item.buyNowPrice }}
+
+    <img src="{{ MEDIA_URL }}/item_photos/item_photos/{{item.itemImage}}" />
+
+    {% if seller.userID == currentUser  %}
+        {% for bid in bids %}
+        <li><a href="{% url 'whitemarket:transactionComplete' item_name_slug=item.slug bidID=bid.bidID %}">{{ bid.bidPrice }}</a></li>
+        {% endfor %}
+    {% else %}
+       {% if item.sellTime == null  %}
+        <a href="{% url 'whitemarket:checkout' item_name_slug=item.slug %}">Make Bid</a>
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}

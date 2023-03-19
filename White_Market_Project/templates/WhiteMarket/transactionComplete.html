@@ -1,2 +1,10 @@
 {% extends 'whitemarket/base.html' %}
 {% load staticfiles %}
+
+{% block title_block %}
+    Transaction Complete
+{% endblock %}
+
+{% block body_block %}
+{{item.itemName}} was bought by {{username}}
+{% endblock %}

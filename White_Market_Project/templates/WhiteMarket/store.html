@@ -1,0 +1,14 @@
+{% extends 'whitemarket/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Store
+{% endblock %}
+
+{% block body_block %}
+
+{% for item in items %}
+<li><a href="{% url 'whitemarket:showListing' item_name_slug=item.slug%}">{{ item.itemName }}</a></li>
+{% endfor %}
+
+{% endblock %}

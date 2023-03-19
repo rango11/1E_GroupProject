@@ -12,13 +12,15 @@ def index(request):
 
     return render(request, 'whitemarket/index.html', context=context_dict)
 
-def showUser(request, user_name_slug):
+def showUser(request, username):
     context_dict = {}
     try:
-        user = Users.objects.get(slug=user_name_slug)
-        context_dict['user'] = user
-    except Users.DoesNotExist:
+        targetUser = User.objects.get(username=username)
+        context_dict['user'] = targetUser
+        context_dict['userProfile'] = UserProfile.objects.get(user=targetUser)
+    except User.DoesNotExist:
         context_dict['user'] = None
+        context_dict['userProfile'] = None
     return render(request, 'whitemarket/user.html', context=context_dict)
 
 
@@ -84,13 +86,11 @@ def get_server_side_cookie(request, cookie, default_val=None):
         val = default_val
     return val
 
-@login_required #FIX THIS add cookies
-def myAccount(request, user_name):
-    context_dict = {}
+@login_required
+def myAccount(request):
+    url = reverse("whitemarket:showUser", kwargs={'username': request.user.username})
 
-    context_dict['user'] = UserProfile.objects.get(user_name)
-
-    return render(request, 'whitemarket/myAccount.html', context=context_dict)
+    return redirect(url)
 
 def listings(request,store_name_slug):
     context_dict = {}
@@ -108,24 +108,55 @@ def list_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
-            item = form.save(commit=False)
-            item.userID = request.user
-            item.save()
+            seller = Sellers.objects.get(userID=UserProfile.objects.get(user=request.user).userID)
+            if seller != None:
+                item = form.save(commit=False)
+                item.sellerID = seller
+                item.sellerName = seller.sellerName
+                item.save()
 
-            url = reverse('show_listing', kwargs={'itemID': item.itemID})
+                url = reverse("whitemarket:showListing", kwargs={'item_name_slug': item.slug})
 
-            return redirect(url)
+                return redirect(url)
     else:
         form = ItemForm()
     return render(request, 'whitemarket/listItem.html', {'form': form})
 
-def show_listing(request, itemID):
+@login_required
+def create_seller(request):
+    if request.method == 'POST':
+        form = SellerForm(request.POST, request.FILES)
+        if form.is_valid():
+            seller = form.save(commit=False)
+            seller.userID = UserProfile.objects.get(user=request.user)
+            seller.save()
+
+            url = reverse('whitemarket:createSeller', kwargs={'userID': seller.userID})
+
+            return redirect(url)
+    else:
+        form = SellerForm()
+
+    return render(request, 'whitemarket/createSeller.html', {'form': form})
+
+def show_listing(request, item_name_slug):
     context_dict = {}
     try:
-        item = Items.objects.get(itemID)
+        item = Items.objects.get(slug=item_name_slug)
         context_dict['item'] = item
     except Items.DoesNotExist:
         context_dict['item'] = None
+
+    currentUser = UserProfile.objects.get(user=request.user)
+    context_dict['currentUser'] = currentUser
+
+    context_dict["bids"] = Bids.objects.filter(itemID=item.itemID)
+
+    try:
+        context_dict['seller'] = Sellers.objects.get(userID=currentUser)
+    except Sellers.DoesNotExist:
+        context_dict['seller'] = Sellers.objects.get(sellerName=item.sellerName)
+
     return render(request, 'whitemarket/item.html', context=context_dict)
 
 def terms(request):
@@ -145,23 +176,50 @@ def privacy(request):
     return render(request,'whitemarket/privacy.html',context = context_dict)
 
 def checkout(request,item_name_slug):
-    context_dict = {} #User makes this
+    if request.method == 'POST':
+        form = BidForm(request.POST, request.FILES)
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.itemID = Items.objects.get(slug=item_name_slug)
+            bid.userID = UserProfile.objects.get(user=request.user)
+            bid.bidTime = datetime.now()
+            bid.save()
 
-    context_dict['item'] = Items.objects.get(slug=item_name_slug)
-    return render(request,'whitemarket/checkout.html',context_dict)
-
-def transaction(request,item_name_slug,):
-    #Make the bid
-    context_dict["item"] = [item_name_slug]
+            if bid.bidPrice == Items.objects.get(slug=item_name_slug).buyNowPrice:
+                url = reverse("whitemarket:transactionComplete", kwargs={'item_name_slug': item_name_slug,'bidID':bid.bidID})
+            else:
+                url = reverse("whitemarket:showListing", kwargs={'item_name_slug': item_name_slug})
 
 
-    return render(request,'whitemarket/transaction.html')
+            return redirect(url)
+    else:
+        form = BidForm()
 
-def transactionComplete(request,item_name_slug,bid_name_slug):
-    #Complete the trade and adds the bid info to item
+    return render(request, 'whitemarket/checkout.html', {'form': form,'itemSlug':item_name_slug})
 
+
+def transactionComplete(request,item_name_slug,bidID):
     item = Items.objects.get(slug=item_name_slug)
-    bidRecords = Bids.objects.get(item.itemID)
+    bid = Bids.objects.get(bidID=bidID)
 
-    #context_dict["item"] =
+    item.sellTime = datetime.now()
+    item.save()
+
+    context_dict = {}
+    context_dict["item"]=item
+    context_dict["username"]=request.user.username
+
     return render(request,'whitemarket/transactionComplete.html',context_dict)
+
+def store(request,store_name_slug):
+    context_dict = {}
+    try:
+        store = Stores.objects.get(slug=store_name_slug)
+        context_dict['store'] = store
+    except Stores.DoesNotExist:
+        store = None
+        context_dict['store'] = None
+
+    context_dict['items'] = Items.objects.filter(storeID=store.storeID)
+
+    return render(request, 'whitemarket/store.html', context_dict)
