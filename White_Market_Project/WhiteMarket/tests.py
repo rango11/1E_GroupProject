@@ -2,80 +2,97 @@ import os
 import warnings
 import importlib
 import tempfile
+import WhiteMarket.models
+
 from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
-from rango.models import Sellers, Users, Bids, Items, Stores, Tags
 from django.contrib.auth.models import User
-from populate_whitemarket import populate
-from whitemarket import forms
+from django.forms import fields as django_fields
+#from populate_whitemarket import populate
+from WhiteMarket import forms
+
 #from django.core.exceptions import ObjectDoesNotExist
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}==============={os.linesep}TEST FAILURE = ({os.linesep}==============={os.linesep})"
 FAILURE_FOOTER = f"{os.linesep}"
 
-def create_user_object():
+# def create_user_object():
 
-    user = Users.objects.get_or_create(username='testuser',
-                                    password = 'testabc123'
-                                    first_name='Test',
-                                    last_name='User',
-                                    email='test@test.com')[0]
-    user.save()
+#     user = Users.objects.get_or_create(username='testuser',
+#                                     password = 'testabc123'
+#                                     first_name='Test',
+#                                     last_name='User',
+#                                     email='test@test.com')[0]
+#     user.save()
 
-    return user
+#     return user
 
-class SellerTests(TestCase):
-    def test_slug_line_creation(self):
-        seller = Sellers.objects.get_or_create(userID=x)
-        seller.sellerName = "Bob's premier collection"
-        seller.save()
+# class SellerTests(TestCase):
+#     def test_slug_line_creation(self):
+#         seller = Sellers.objects.get_or_create(userID=x)
+#         seller.sellerName = "Bob's premier collection"
+#         seller.save()
 
-        self.assertEqual(seller.slug, "bob's-premier-collection")
+#         self.assertEqual(seller.slug, "bob's-premier-collection")
 
 #     def test_rating_is_non_negative(self):
 #         seller = Sellers(userID = x, sellerName = "Bob's Premier Collection", rating = -1)
 #         seller.save()
 #         self.assertEqual(seller.views >= 0, True, f"Seller rating should be non negative. Instead rating of {seller.rating} was recieved")
 
-
-class UserTests(TestCase):
-    def test_sign_up_form(self):
-        self.client.post(reverse('rango:sign_up'), {'name': 'bob', 'password': 'qwerTyuio5p', 'description': "I love baseball cards!", 'phoneNo':'07225652981'})
-        bob = Users.objects.filter(username='bob')
-        self.assertEquals(len(bob), 1, f"{FAILURE_HEADER} When adding a new user by the sign up form, it does not appear in the list of Users. {FAILURE_FOOTER}")
-
-
-    def test_sign_in_form(self):
-        user_object = create_user_object()
-        response = self.client.post(reverse('rango:login'), {'username': 'testuser', 'password': 'testabc123'})
-        
+class RegistrationTests(TestCase):
+    def test_registration_view_exists(self):
+        #Checks to see if the new registration view exists in the correct place, with the correct name.
+        url = ''
         try:
-            self.assertEqual(user_object.id, int(self.client.session['_auth_user_id']), f"{FAILURE_HEADER}We attempted to log a user in with an ID of {user_object.id}, but instead logged a user in with an ID of {self.client.session['_auth_user_id']}. Please check your login() view.{FAILURE_FOOTER}")
-        except KeyError:
-            self.assertTrue(False, f"{FAILURE_HEADER}When attempting to log in with your login() view, it didn't seem to log the user in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
+            print("££££££££££££££££££££££££££££££££")
+            url = reverse('WhiteMarket:register')
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            print(str(url))
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4")
+            
+        except:
+            pass
+        self.assertEquals(url, '/WhiteMarket/register/', f"{FAILURE_HEADER}Have you created the WhiteMarket:register URL mappign correcly? It should point to the register view")
 
-    def test_good_form_creation(self):
-        USER_data = {'username': 'testuser', 'password': 'test123', 'email': 'test@test.com'} ##THIS IS FOR THE USER MODEL MADE BY DJANGO
-        USER_form = forms.USERForm(data=USER_data)
+# class UserTests(TestCase):
+#     def test_sign_up_form(self):
+#         self.client.post(reverse('rango:sign_up'), {'name': 'bob', 'password': 'qwerTyuio5p', 'description': "I love baseball cards!", 'phoneNo':'07225652981'})
+#         bob = Users.objects.filter(username='bob')
+#         self.assertEquals(len(bob), 1, f"{FAILURE_HEADER} When adding a new user by the sign up form, it does not appear in the list of Users. {FAILURE_FOOTER}")
 
-        users_data = {'description': "I love baseball cards!", 'phoneNo':'07225652981', 'picture': tempfile.NamedTemporaryFile(suffix=".jpg").name}
-        users_form = forms.UserForm(data=users_data)  ##THIS IS FOR OUR USERS MODEL
 
-        self.assertTrue(USER_form.is_valid(), f"{FAILURE_HEADER}The USERForm (Django User) was not valid after entering the required data. {FAILURE_FOOTER}")
-        self.assertTrue(users_form.is_valid(), f"{FAILURE_HEADER}The UsersForm (WhiteMarket user) was not valid after entering the required data.{FAILURE_FOOTER}")
-
-        USER_object = USER_form.save()    #AGAIN THIS IS A USER IN THE DJANGO USER MODEL
-        USER_object.set_password(USER_data['password'])
-        USER_object.save()
+#     def test_sign_in_form(self):
+#         user_object = create_user_object()
+#         response = self.client.post(reverse('rango:login'), {'username': 'testuser', 'password': 'testabc123'})
         
-        users_object = users_form.save(commit=False)  #THIS IS A USER IN OUR USERS MODEL 
-        users_object.user = users_object
-        users_object.save()
+#         try:
+#             self.assertEqual(user_object.id, int(self.client.session['_auth_user_id']), f"{FAILURE_HEADER}We attempted to log a user in with an ID of {user_object.id}, but instead logged a user in with an ID of {self.client.session['_auth_user_id']}. Please check your login() view.{FAILURE_FOOTER}")
+#         except KeyError:
+#             self.assertTrue(False, f"{FAILURE_HEADER}When attempting to log in with your login() view, it didn't seem to log the user in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
+
+#     def test_good_form_creation(self):
+#         USER_data = {'username': 'testuser', 'password': 'test123', 'email': 'test@test.com'} ##THIS IS FOR THE USER MODEL MADE BY DJANGO
+#         USER_form = forms.USERForm(data=USER_data)
+
+#         users_data = {'description': "I love baseball cards!", 'phoneNo':'07225652981', 'picture': tempfile.NamedTemporaryFile(suffix=".jpg").name}
+#         users_form = forms.UserForm(data=users_data)  ##THIS IS FOR OUR USERS MODEL
+
+#         self.assertTrue(USER_form.is_valid(), f"{FAILURE_HEADER}The USERForm (Django User) was not valid after entering the required data. {FAILURE_FOOTER}")
+#         self.assertTrue(users_form.is_valid(), f"{FAILURE_HEADER}The UsersForm (WhiteMarket user) was not valid after entering the required data.{FAILURE_FOOTER}")
+
+#         USER_object = USER_form.save()    #AGAIN THIS IS A USER IN THE DJANGO USER MODEL
+#         USER_object.set_password(USER_data['password'])
+#         USER_object.save()
         
-        self.assertEqual(len(User.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (Django) User object created, but it didn't appear. Check your UserForm implementation, and try again.{FAILURE_FOOTER}")
-        self.assertEqual(len(whitemarket.models.Users.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (WhiteMarket) Users object created, but it didn't appear. Check your UserProfileForm implementation, and try again.{FAILURE_FOOTER}")
-        self.assertTrue(self.client.login(username='testuser', password='test123'), f"{FAILURE_HEADER}We couldn't log our sample user in during the tests. Please check your implementation of UserForm and UserProfileForm.{FAILURE_FOOTER}")
+#         users_object = users_form.save(commit=False)  #THIS IS A USER IN OUR USERS MODEL 
+#         users_object.user = users_object
+#         users_object.save()
+        
+#         self.assertEqual(len(User.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (Django) User object created, but it didn't appear. Check your UserForm implementation, and try again.{FAILURE_FOOTER}")
+#         self.assertEqual(len(whitemarket.models.Users.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (WhiteMarket) Users object created, but it didn't appear. Check your UserProfileForm implementation, and try again.{FAILURE_FOOTER}")
+#         self.assertTrue(self.client.login(username='testuser', password='test123'), f"{FAILURE_HEADER}We couldn't log our sample user in during the tests. Please check your implementation of UserForm and UserProfileForm.{FAILURE_FOOTER}")
 
 
 # class PopulationScriptTests(TestCase):
