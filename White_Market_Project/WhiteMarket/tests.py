@@ -5,7 +5,7 @@ import tempfile
 import WhiteMarket.models
 
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import reverse, NoReverseMatch
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.forms import fields as django_fields
@@ -43,13 +43,72 @@ FAILURE_FOOTER = f"{os.linesep}"
 
 class RegistrationTests(TestCase):
     def test_registration_view_exists(self):
-        #Checks to see if the new registration view exists in the correct place, with the correct name.
+        """
+        Checks to see if the new registration view exists in the correct place, with the correct name.
+        """
         url = ''
         try:
-            url = reverse('WhiteMarket:register')
-        except:
-            pass
-        self.assertEquals(url, '/WhiteMarket/register/', f"{FAILURE_HEADER}Have you created the WhiteMarket:register URL mappign correcly? It shoudl point to the register view")
+            url = reverse('whitemarket:register')
+        except NoReverseMatch:
+            self.assertTrue(False, f"{FAILURE_HEADER}Check that app name in url.py is 'whitemarket'{FAILURE_FOOTER}")
+        else:
+            self.assertEquals(url, '/whitemarket/register/', f"{FAILURE_HEADER}Have you created the whitemarket:register URL mappign correctly? It should point to the register view")
+    
+    def test_registration_template(self):
+        """
+        Does the register.html template exist in the correct place, and does it make use of template inheritance?
+        """
+        template_base_path = os.path.join(settings.TEMPLATE_DIR, 'WhiteMarket')
+        template_path = os.path.join(template_base_path, 'register.html')
+        self.assertTrue(os.path.exists(template_path), f"{FAILURE_HEADER}We couldn't find the 'register.html' template in the 'templates/WhiteMarket/' directory. Did you put it in the right place?{FAILURE_FOOTER}")
+    
+    def test_registration_get_response(self):
+        """
+        Checks the GET response of the registration view. Is the form enctype="multipart/form-data".
+        """
+        request = self.client.get(reverse('whitemarket:register'))
+        content = request.content.decode('utf-8')
+        self.assertTrue('enctype="multipart/form-data"' in content, f"{FAILURE_HEADER}The form should use 'enctype' = 'multipart/form-data'{FAILURE_FOOTER}")
+
+    def test_bad_registration_post_response(self):
+        """
+        Checks the POST response of the registration view.
+        What if we submit a blank form?
+        """
+        request = self.client.post(reverse('whitemarket:register'))
+        content = request.content.decode('utf-8')
+        self.assertTrue('<ul class="errorlist">' in content)
+    
+    def test_good_form_creation(self):
+        user_data = {'username': 'testuser', 'password': 'test123', 'email': 'test@test.com'} ##THIS IS FOR THE USER MODEL MADE BY DJANGO
+        user_form = forms.UserForm(data=user_data)
+        profile_data = {'profilePicture': tempfile.NamedTemporaryFile(suffix=".jpg").name, 'description': "I love baseball cards!", 'phoneNo':'07225652981'}
+        profile_form = forms.UserProfileForm(data=profile_data)  ##THIS IS FOR OUR UserProfile MODEL
+
+        self.assertTrue(user_form.is_valid(), f"{FAILURE_HEADER}The UserForm  was not valid after entering the required data. {FAILURE_FOOTER}")
+        self.assertTrue(profile_form.is_valid(), f"{FAILURE_HEADER}The UserProfileForm was not valid after entering the required data.{FAILURE_FOOTER}")
+
+        user_object = user_form.save()   
+        user_object.set_password(user_data['password'])
+        user_object.save()
+
+        profile_object = profile_form.save(commit=False)  #THIS IS A USER IN OUR USERS MODEL 
+        profile_object.user = user_object
+        profile_object.save()
+
+        self.assertEquals(len(User.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (Django) User object created, but it didn't appear. Check your UserForm implementation, and try again.{FAILURE_FOOTER}")
+        self.assertEquals(len(WhiteMarket.models.UserProfile.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a UserProfile object created, but it didn't appear. Check your UserProfileForm implementation, and try again.{FAILURE_FOOTER}")
+        self.assertTrue(self.client.login(username='testuser', password='test123'), f"{FAILURE_HEADER}We couldn't log our sample user in during the tests. Please check your implementation of UserForm and UserProfileForm.{FAILURE_FOOTER}")
+
+    def test_good_registration_post_response(self):
+        """
+        Checks the POST response of the registration view.
+        We should be able to log a user in with new details after this!
+        """
+        post_data = {'username': 'qwerty', 'password': 'test123', 'email': 'test@test.com', 'profilePicture': tempfile.NamedTemporaryFile(suffix=".jpg").name, 'description': "I love baseball cards!", 'phoneNo':'07225652981'}
+        request = self.client.post(reverse('whitemarket:register'), post_data)
+        content = request.content.decode('utf-8')
+        self.assertTrue(self.client.login(username='qwerty', password='test123'), f"{FAILURE_HEADER}We couldn't log in the user we created using your registration form. Please check your implementation of the register() view. Are you missing a .save() call?{FAILURE_FOOTER}")
 
 # class UserTests(TestCase):
 #     def test_sign_up_form(self):

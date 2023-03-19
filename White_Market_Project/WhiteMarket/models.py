@@ -37,7 +37,7 @@ class UserProfile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.user.usernameName)
+        self.slug = slugify(self.user.username)
         super(UserProfile, self).save(*args, **kwargs)
 
 
