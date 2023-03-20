@@ -1,0 +1,15 @@
+{% extends 'whitemarket/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Register
+{% endblock %}
+
+{% block body_block %}
+<form id="seller_form" method="post" action="{% url 'whitemarket:createSeller' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" name="submit" value="Create Seller" />
+</form>
+{% endblock %}

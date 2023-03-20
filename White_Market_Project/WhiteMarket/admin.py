@@ -7,7 +7,6 @@ admin.register(Sellers)
 admin.register(Items)
 admin.register(Bids)
 admin.register(Stores)
-admin.register(Tags)
 
 # Define an inline admin descriptor for Employee model
 # which acts a bit like a singleton
@@ -20,6 +19,13 @@ class UsersInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = (UsersInline,)
 
+
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+admin.site.register(Sellers)
+admin.site.register(Items)
+admin.site.register(UserProfile)
+admin.site.register(Bids)
+admin.site.register(Stores)

@@ -1,0 +1,17 @@
+{% extends 'whitemarket/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Item
+{% endblock %}
+
+{% block body_block %}
+
+    {{user.username}}
+    {{user.email}}
+    {{userProfile.description}}
+    {{userProfile.phoneNo}}
+
+    <img src="{{userProfile.ProfilePicture}}" />
+
+{% endblock %}

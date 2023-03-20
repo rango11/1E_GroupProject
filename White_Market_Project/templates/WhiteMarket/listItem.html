@@ -1,2 +1,15 @@
 {% extends 'whitemarket/base.html' %}
 {% load staticfiles %}
+
+{% block title_block %}
+    ListItem
+{% endblock %}
+
+{% block body_block %}
+<form id="item_form" method="post" action="{% url 'whitemarket:listItem' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" name="submit" value="Add Item" />
+</form>
+{% endblock %}

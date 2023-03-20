@@ -20,10 +20,16 @@ class UserProfileForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Items
-        fields = ('itemName', 'isDigital', 'itemDescription', 'itemImage', 'condition', 'buyNowPrice')
+        fields = ('itemName','storeID', 'isDigital', 'itemDescription', 'itemImage', 'condition', 'buyNowPrice')
 
 
 class BidForm(forms.ModelForm):
     class Meta:
         model = Bids
-        fields = ()
+        fields = ('bidPrice',)
+
+
+class SellerForm(forms.ModelForm):
+    class Meta:
+        model=Sellers
+        fields = ('sellerName',)
