@@ -2,7 +2,7 @@ from django.contrib import admin
 from WhiteMarket.models import *
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-admin.register(Users)
+admin.register(UserProfile)
 admin.register(Sellers)
 admin.register(Items)
 admin.register(Bids)
@@ -12,7 +12,7 @@ admin.register(Tags)
 # Define an inline admin descriptor for Employee model
 # which acts a bit like a singleton
 class UsersInline(admin.StackedInline):
-    model = Users
+    model = UserProfile
     can_delete = False
     verbose_name_plural = 'users'
 

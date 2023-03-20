@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from WhiteMarket.models import Users,Items,Sellers,Bids,Stores
+from WhiteMarket.models import UserProfile,Items,Sellers,Bids,Stores
 from WhiteMarket.forms import *
 from datetime import datetime
 from django.urls import reverse
 from django.contrib.auth.views import LogoutView
+from WhiteMarket.forms import UserForm, UserProfileForm, ItemForm
 
 def index(request):
     context_dict = {}
@@ -22,21 +23,13 @@ def showUser(request, user_name_slug):
         context_dict['user'] = None
     return render(request, 'whitemarket/user.html', context=context_dict)
 
-def showListing(request, item_name_slug):
-    context_dict = {}
-    try:
-        item = Items.objects.get(slug=item_name_slug)
-        context_dict['item'] = item
-    except Items.DoesNotExist:
-        context_dict['item'] = None
-    return render(request, 'whitemarket/item.html', context=context_dict)
 
 def register(request):
     registered = False
 
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UsersForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -48,17 +41,17 @@ def register(request):
 
             if 'picture' in request.FILES:
                 profile.profilePicture = request.FILES['profilePicture']
-            
+
             profile.save()
             registered = True
         else:
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
-        profile_form = UsersForm()
-    
-    return render(request, 'whitemarket/register.html', context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+        profile_form = UserProfileForm()
 
+    return render(request, 'whitemarket/register.html', context={'user_form': user_form, 'profile_form': profile_form,
+                                                                 'registered': registered})
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -97,17 +90,17 @@ def get_server_side_cookie(request, cookie, default_val=None):
     return val
 
 @login_required #FIX THIS add cookies
-def myAccount(request,user_name_slug):
+def myAccount(request, user_name):
     context_dict = {}
 
-    context_dict['user'] = Users.objects.get(slug=user_name_slug)
+    context_dict['user'] = UserProfile.objects.get(user_name)
 
-    return render(request, 'whitemarket/user.html', context=context_dict)
+    return render(request, 'whitemarket/myAccount.html', context=context_dict)
 
 def listings(request,store_name_slug):
     context_dict = {}
     try:
-        item = Stores.objects.get(slug=item_name_slug)
+        store = Stores.objects.get(slug=store_name_slug)
         context_dict['store'] = store
     except Stores.DoesNotExist:
         context_dict['store'] = None
@@ -116,20 +109,29 @@ def listings(request,store_name_slug):
 
 
 @login_required
-def listItem(request):
-    form = ItemForm()
-
+def list_item(request):
     if request.method == 'POST':
-        form = ItemForm(request.POST)
-
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
+            item.userID = request.user
+            item.save()
 
-            return redirect(reverse('whitemarket:showListing', kwargs={'itemName': item.name}))
-        else:
-            print(form.errors)
+            url = reverse('show_listing', kwargs={'itemID': item.itemID})
 
+            return redirect(url)
+    else:
+        form = ItemForm()
     return render(request, 'whitemarket/listItem.html', {'form': form})
+
+def show_listing(request, itemID):
+    context_dict = {}
+    try:
+        item = Items.objects.get(itemID)
+        context_dict['item'] = item
+    except Items.DoesNotExist:
+        context_dict['item'] = None
+    return render(request, 'whitemarket/item.html', context=context_dict)
 
 def terms(request):
     context_dict = {}
