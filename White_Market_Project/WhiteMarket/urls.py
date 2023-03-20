@@ -20,9 +20,9 @@ urlpatterns = [
     # path('logout/', views.user_logout, name='logout'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('listItem/', views.list_item, name='listItem'),
-    path('listings/<slug:store_name_slug>', views.listings, name='listings'),
-    path('listings/<slug:item_name_slug>', views.show_listing, name='showListing'),
-    path('user/<slug:user_name_slug>', views.showUser, name='showUser'),
+    path('listings/<slug:store_name_slug>/', views.listings, name='listings'),
+    path('listings/<slug:item_name_slug>/', views.show_listing, name='showListing'),
+    path('user/<slug:user_name_slug>/', views.showUser, name='showUser'),
     path('checkout/', views.checkout, name='checkout'),
     # path('transaction/', views.transaction, name='transaction'),
     path('transactions/', views.transactions, name='transactions'),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('contact/', views.contact, name='contact'),
     path('privacy/', views.privacy, name='privacy'),
+    path('createSeller/', views.create_seller, name='createSeller'),
 
 ]

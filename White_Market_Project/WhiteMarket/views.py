@@ -93,7 +93,9 @@ def get_server_side_cookie(request, cookie, default_val=None):
 
 @login_required
 def myAccount(request):
+    # url = reverse("whitemarket:showUser", kwargs={'username': request.user.username})
     url = reverse("whitemarket:showUser", kwargs={'username': request.user.username})
+
 
     return redirect(url)
 
