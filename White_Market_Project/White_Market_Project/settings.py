@@ -146,3 +146,5 @@ USER_PROFILE_PHOTO_URL = "/user_profile_photos/"
 ITEM_PHOTO_ROOT = ITEM_PHOTO_DIR
 ITEM_PHOTO_URL = "/media/item_photos/"
 
+LOGIN_REDIRECT_URL = "whitemarket/index"
+LOGOUT_REDIRECT_URL = "index"

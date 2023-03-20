@@ -1,23 +1,43 @@
-{% extends 'whitemarket/base.html' %}
+<!DOCTYPE html>
+
 {% load staticfiles %}
 
-{% block title_block %}
-    Register
-{% endblock %}
+<html lang="en">
 
-{% block body_block %}
-<h1>Register for Rango</h1>
-{% if registered %}
-Rango says: <strong>thank you for registering!</strong>
-<a href="{% url 'whitemarket:index' %}">Return to the homepage.</a><br />
-{% else %}
-Rango says: <strong>register here!</strong><br />
-<form id="user_form" method="post" action="{% url 'whitemarket:register' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+        <title>White Market - Register</title>
+    </head>
 
-    <input type="submit" name="submit" value="Register" />
-</form>
-{% endif %}
-{% endblock %}
+    <body>
+        <div class="container">
+        <h1>Register to White Market</h1>
+        {% if registered %}
+        <strong>thank you for registering</strong>
+        <a href="{% url 'whitemarket:index' %}">Return to the homepage.</a><br />
+        {% else %}
+        <strong>register here</strong><br />
+        <form id="user_form" method="post" action="{% url 'whitemarket:register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+        </div>
+    </body>
+
+<footer>
+    <div class="footer-left">
+      <a href="{% url 'whitemarket:terms' %}">Legal</a>
+      <a href="{% url 'whitemarket:about' %}">About</a>
+      <a href="{% url 'whitemarket:contact' %}">Contact</a>
+      <a href="{% url 'whitemarket:register' %}">Register</a>
+    </div>
+    <div class="footer-right">
+        <p style="margin: 0.5rem;">White Market © Trademark 2023</p>
+    </div>
+  </footer>
