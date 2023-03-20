@@ -64,19 +64,22 @@
     <ul id="stores" class="list-group scrollable">
       <!-- Populate with stores from SQLite database -->
     </ul>
-
+  
+    <h4>Favourites</h4>
+    <ul id="favourites" class="list-group">
+      <!-- Populate with favourited stores -->
+    </ul>
 
         {% if user.is_authenticated %}
                 <div class="bottom-links">
-                    <a href="{% url 'whitemarket:myAccount' %}">Account</a>
-                    <a href="{% url 'whitemarket:transactions' %}">Transactions</a>
-                    <a href="{% url 'whitemarket:createSeller' %}">Create Seller</a>
-                    <a href="{% url 'whitemarket:listItem' %}">List Item</a>
+                    <a href="#">Account</a>
+                    <a href="{% url 'whitemarket:checkout' %}">Basket</a>
+                    <a href="#">Transactions</a>
                     <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
                 </div>
             {% else %}
                 <div class="bottom-links">
-                    <a href="{% url 'whitemarket:login' %}" style="padding-bottom: 2rem;">Login</a>
+                    <a href="{% url 'whitemarket:login' %}">Login</a>
                 </div>
             {% endif %}
 
