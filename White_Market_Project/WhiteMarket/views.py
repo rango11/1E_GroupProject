@@ -153,7 +153,13 @@ def show_listing(request, item_name_slug):
     context_dict["bids"] = Bids.objects.filter(itemID=item.itemID)
 
     try:
-        context_dict['seller'] = Sellers.objects.get(userID=currentUser)
+
+        seller= Sellers.objects.get(userID=currentUser)
+
+        if item.sellerID==seller.sellerID:
+            context_dict["seller"] = seller
+        else:
+            context_dict['seller'] = Sellers.objects.get(sellerName=item.sellerName)
     except Sellers.DoesNotExist:
         context_dict['seller'] = Sellers.objects.get(sellerName=item.sellerName)
 
@@ -201,6 +207,8 @@ def checkout(request,item_name_slug):
 def transactionComplete(request,item_name_slug,bidID):
     item = Items.objects.get(slug=item_name_slug)
     bid = Bids.objects.get(bidID=bidID)
+    bid.complete = True;
+    bid.save()
 
     item.sellTime = datetime.now()
     item.save()
@@ -223,3 +231,13 @@ def store(request,store_name_slug):
     context_dict['items'] = Items.objects.filter(storeID=store.storeID)
 
     return render(request, 'whitemarket/store.html', context_dict)
+
+def transactions(request):
+    currentUser = UserProfile.objects.get(user=request.user)
+
+    context_dict = {}
+
+    context_dict['completeBids'] = Bids.objects.filter(userID=currentUser.userID,complete=True)
+    context_dict['uncompleteBids'] = Bids.objects.filter(userID=currentUser.userID, complete=False)
+
+    return render(request, 'whitemarket/transactions.html', context_dict)

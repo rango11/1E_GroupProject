@@ -47,6 +47,7 @@ class Bids(models.Model):
     userID = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
     bidTime = models.DateTimeField()
     bidPrice = models.DecimalField(decimal_places=2, max_digits=10)
+    complete = models.BooleanField(default=False)
 
     #def __str__(self):
         #return self.bidID

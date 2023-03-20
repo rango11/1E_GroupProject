@@ -1,0 +1,23 @@
+{% extends 'whitemarket/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Transactions
+{% endblock %}
+
+{% block body_block %}
+<h1>Pending Bids</h1>
+{% for bid in uncompleteBids %}
+{{bid.itemID}}
+------
+{{bid.bidPrice}}
+{% endfor %}
+
+<h1>Complete Bids</h1>
+{% for bid in completeBids %}
+{{bid.itemID}}
+------
+{{bid.bidPrice}}
+{% endfor %}
+
+{% endblock %}
