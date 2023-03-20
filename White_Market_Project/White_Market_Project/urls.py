@@ -19,11 +19,14 @@ from django.urls import include
 from WhiteMarket import views
 from django.conf import settings
 from django.conf.urls.static import static
+# from django.views.generic.base import TemplateView
+# from .views import logout_view
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('whitemarket/', include('WhiteMarket.urls')),
     path('admin/', admin.site.urls),
+    # path('', TemplateView.as_view(template_name='WhiteMarket/index.html'), name='index'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # + static(settings.USER_PROFILE_PHOTO_URL, document_root=settings.USER_PROFILE_PHOTO_ROOT)
 # + static(settings.ITEM_PHOTO_URL, document_root=settings.ITEM_PHOTO_ROOT)

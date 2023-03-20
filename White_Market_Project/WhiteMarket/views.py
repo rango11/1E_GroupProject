@@ -6,6 +6,7 @@ from WhiteMarket.models import Users,Items,Sellers,Bids,Stores
 from WhiteMarket.forms import *
 from datetime import datetime
 from django.urls import reverse
+from django.contrib.auth.views import LogoutView
 
 def index(request):
     context_dict = {}
@@ -84,7 +85,10 @@ def restricted(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect(reverse('whitemarket:index'))
+    return redirect(reverse('whitemarket:logout'))
+
+class WhiteMarketLogoutView(LogoutView):
+    next_page = 'my_custom_logout_page'
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
