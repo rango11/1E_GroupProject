@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     phoneNo = models.CharField(max_length=11)
 
     class Meta:
-        verbose_name_plural = 'Users'
+        verbose_name_plural = 'UserProfiles'
 
     def __str__(self):
         return self.user.username
@@ -38,6 +38,9 @@ class Sellers(models.Model):
     sellerName = models.CharField(max_length=30)
     rating = models.IntegerField(choices=ratingChoices, default=1)
 
+    class Meta:
+        verbose_name_plural = 'Sellers'
+
     def __str__(self):
         return self.sellerName
 
@@ -49,6 +52,9 @@ class Bids(models.Model):
     bidPrice = models.DecimalField(decimal_places=2, max_digits=10)
     complete = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name_plural = 'Bids'
+
     #def __str__(self):
         #return self.bidID
 
@@ -58,6 +64,9 @@ class Stores(models.Model):
     storeName = models.CharField(max_length=30)
     storeDescription = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Stores'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.storeName)
@@ -81,6 +90,9 @@ class Items(models.Model):
     sellTime = models.DateTimeField(null=True,blank=True)
     buyNowPrice = models.DecimalField(decimal_places=2, max_digits=10)
     slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name_plural = 'Items'
 
     def __str__(self):
         return self.itemName
