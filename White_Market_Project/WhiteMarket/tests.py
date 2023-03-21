@@ -54,6 +54,7 @@ def create_store_object():
     return store_object
 
 
+
 # class SellerTests(TestCase):
 #     def test_slug_line_creation(self):
 #         seller = Sellers.objects.get_or_create(userID=x)
@@ -192,7 +193,7 @@ class LogoutTests(TestCase):
 class SellerTests(TestCase):
     def test_create_seller_form(self):
         seller_form = forms.SellerForm(data={'sellerName':'test_seller'})
-        self.assertTrue(seller_form.is_valid(), f"{FAILURE_HEADER} The SellerForm was not valid")
+        self.assertTrue(seller_form.is_valid(), f"{FAILURE_HEADER} The SellerForm should be valid but it was not. Check SellerForm implementation")
 
         seller_object = seller_form.save(commit=False)
         temp_user_profile = create_userProfile_object()
@@ -200,9 +201,14 @@ class SellerTests(TestCase):
         seller_object.save()
         self.assertTrue(len(Sellers.objects.all()) != 0, f"{FAILURE_HEADER} Seller object was not created.{FAILURE_FOOTER}")
 
-    # def test_list_item_form(self):
-    #     item_data = {'itemName': 'Babe Ruth baseball card', 'isDigital': False, 'itemDescription': 'Famous baseball card', it}
-    #     item_form = forms.ItemForm()
+    def test_list_item_form(self):
+        item_store = create_store_object()
+        item_data = {'itemName': 'Babe Ruth baseball card', 'isDigital': False, 'itemDescription': 'Famous baseball card',
+                    'storeID': item_store.storeID, 'condition': 'Used',  'buyNowPrice':100, 'itemImage': tempfile.NamedTemporaryFile(suffix=".jpg").name}
+        item_form = forms.ItemForm(data=item_data)
+
+        self.assertTrue(item_form.is_valid(), f"{FAILURE_HEADER}The ItemForm should be valid but it was not. Check ItemForm implementation.{FAILURE_FOOTER}")
+
 
    
 
