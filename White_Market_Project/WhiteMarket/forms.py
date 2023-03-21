@@ -1,6 +1,7 @@
 from django import forms
-from django.contrib.auth.models import User
 from WhiteMarket.models import *
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 
 class UserForm(forms.ModelForm):
@@ -12,15 +13,23 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
     class Meta:
         model = UserProfile
         fields = ('profilePicture', 'description', 'phoneNo')
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
+
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Items
-        fields = ('itemName','storeID', 'isDigital', 'itemDescription', 'itemImage', 'condition', 'buyNowPrice')
+        fields = ('itemName', 'storeID', 'isDigital', 'itemDescription', 'itemImage', 'condition', 'buyNowPrice')
 
 
 class BidForm(forms.ModelForm):
@@ -31,5 +40,5 @@ class BidForm(forms.ModelForm):
 
 class SellerForm(forms.ModelForm):
     class Meta:
-        model=Sellers
+        model = Sellers
         fields = ('sellerName',)
