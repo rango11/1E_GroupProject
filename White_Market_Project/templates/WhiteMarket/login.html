@@ -1,18 +1,40 @@
-{% extends 'whitemarket/base.html' %}
+<!DOCTYPE html>
+
 {% load staticfiles %}
 
-{% block title_block %}
-    Login
-{% endblock %}
+<html lang="en">
 
-{% block body_block %}
-<h1>Login to Rango</h1>
-<form id="login_form" method="post" action="{% url 'whitemarket:login' %}">
-    {% csrf_token %}
-    Username: <input type="text" name="username" value="" size="50" />
-    <br />
-    Password: <input type="password" name="password" value="" size="50" />
-    <br />
-    <input type="submit" value="submit" />
-</form>
-{% endblock %}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+        <title>White Market - Login</title>
+    </head>
+
+
+<body>
+    <div class="container">
+        <img style="max-width: 10%; max-height: auto;" class="logo-about" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
+        <h1>Login to White Market</h1>
+        <form id="login_form" method="post" action="{% url 'whitemarket:login' %}">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" name="password" value="" size="50" />
+            <br />
+            <input type="submit" value="Log In" />
+        </form>
+    </div>
+</body>
+
+<footer>
+    <div class="footer-left">
+      <a href="{% url 'whitemarket:terms' %}">Legal</a>
+      <a href="{% url 'whitemarket:about' %}">About</a>
+      <a href="{% url 'whitemarket:contact' %}">Contact</a>
+      <a href="{% url 'whitemarket:register' %}">Register</a>
+    </div>
+    <div class="footer-right">
+        <p style="margin: 0.5rem;">White Market © Trademark 2023</p>
+    </div>
+  </footer>

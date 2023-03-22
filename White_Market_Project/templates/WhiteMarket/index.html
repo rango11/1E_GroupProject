@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block body_block %}
+
+{% if user.is_authenticated %}
 <div class="container">
   <div class="items-container">
     <!-- Item 1 -->
@@ -51,4 +53,15 @@
   </div>
   <script src="{% static 'JavaScript/indexJS.js' %}"></script>
 </div>
+
+{% else %}
+<div class="container">
+  <img style="max-width: 20%; max-height: auto;" class="logo-about" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
+  <p style="font-size: 2em;">Login to access the White Market</p>
+  <button>
+    <a href="{% url 'whitemarket:login' %}">Log In</a>
+  </button>
+</div>
+{% endif %}
+
 {% endblock %}
