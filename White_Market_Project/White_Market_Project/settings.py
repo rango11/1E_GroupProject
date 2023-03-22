@@ -75,6 +75,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media', # Check/add this line!
+                'WhiteMarket.context_processors.inSellers',
+                'WhiteMarket.context_processors.getStores',
                 ],
         },
     },

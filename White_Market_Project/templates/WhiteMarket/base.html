@@ -59,7 +59,9 @@
   
     <h4>Stores</h4>
     <ul id="stores" class="list-group scrollable">
-      <!-- Populate with stores from SQLite database -->
+        {% for store in stores%}
+        <a href="{% url 'whitemarket:store' store_name_slug=store.slug %}">{{store.storeName}}</a>
+        {% endfor %}
     </ul>
 
 
@@ -67,7 +69,11 @@
                 <div class="bottom-links">
                     <a href="{% url 'whitemarket:myAccount' %}">Account</a>
                     <a href="{% url 'whitemarket:transactions' %}">Transactions</a>
+
+                    {% if inSellers == False%}
                     <a href="{% url 'whitemarket:createSeller' %}">Create Seller</a>
+                    {% endif %}
+
                     <a href="{% url 'whitemarket:listItem' %}">List Item</a>
                     <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
                 </div>
