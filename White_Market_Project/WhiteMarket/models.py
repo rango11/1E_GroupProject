@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -8,7 +10,8 @@ ratingChoices = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
 CONDITION_CHOICES = [
     ('new', 'New'),
     ('used', 'Used'),
-    ('refurbished', 'Refurbished'),]
+    ('refurbished', 'Refurbished'), ]
+
 
 class UserProfile(models.Model):
     # commented fields appear in User model
@@ -44,6 +47,7 @@ class Sellers(models.Model):
     def __str__(self):
         return self.sellerName
 
+
 class Bids(models.Model):
     bidID = models.AutoField(unique=True, primary_key=True)
     itemID = models.ForeignKey("Items", on_delete=models.CASCADE)
@@ -55,8 +59,8 @@ class Bids(models.Model):
     class Meta:
         verbose_name_plural = 'Bids'
 
-    #def __str__(self):
-        #return self.bidID
+    # def __str__(self):
+    # return self.bidID
 
 
 class Stores(models.Model):
@@ -78,7 +82,7 @@ class Stores(models.Model):
 
 class Items(models.Model):
     itemID = models.BigAutoField(unique=True, primary_key=True)
-    itemName = models.CharField(max_length=30,unique=True)
+    itemName = models.CharField(max_length=30, unique=True)
     storeID = models.ForeignKey("Stores", on_delete=models.CASCADE)
     sellerID = models.ForeignKey("Sellers", on_delete=models.CASCADE, related_name="itemSellerID")
     sellerName = models.CharField(max_length=30)
@@ -87,7 +91,7 @@ class Items(models.Model):
     itemImage = models.ImageField(upload_to='item_photos/')
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     listedTime = models.DateTimeField(auto_now_add=True)
-    sellTime = models.DateTimeField(null=True,blank=True)
+    sellTime = models.DateTimeField(null=True, blank=True)
     buyNowPrice = models.DecimalField(decimal_places=2, max_digits=10)
     slug = models.SlugField(unique=True)
 
@@ -100,3 +104,14 @@ class Items(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.itemName)
         super(Items, self).save(*args, **kwargs)
+
+
+@receiver(post_save, sender=User)
+def create_superuser(sender, instance, created, **kwargs):
+    if created and instance.is_superuser:
+        user = User.objects.get(username=instance.username)
+        UserProfile.objects.create(
+            user=user,
+            description='',
+            phoneNo=''
+        )
