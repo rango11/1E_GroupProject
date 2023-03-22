@@ -1,17 +1,37 @@
+<!DOCTYPE html>
+
 {% extends 'whitemarket/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
-    Item
+ - User Profile
+{% endblock %}
+
+{% block css_block %}
+<!-- Change to correct CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
 {% endblock %}
 
 {% block body_block %}
 
-    {{user.username}}
-    {{user.email}}
-    {{userProfile.description}}
-    {{userProfile.phoneNo}}
+<!-- conatiner -->
+<div  style="margin: 0 5rem;">
 
-    <img src="{{userProfile.ProfilePicture}}" />
+<!-- info -->
+<div class="user_profile" style="display: flexbox">
+    <div class="seller-info">
+        <div class="seller-name">Name: {{user.username}}</div>
+        <div class="seller-email">Email: {{user.email}}</div>        
+        <div class="seller-phone">Phone Number: {{userProfile.phoneNo}}</div>
+        
+    </div>
+
+<!-- photo -->
+    <div class="profile-photo-container">
+        <img src="{{userProfile.ProfilePicture}}" alt="User Photo">
+    </div>
+</div>
+
+<div class="seller-description">Description: {{userProfile.description}}</div>
 
 {% endblock %}

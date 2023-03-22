@@ -39,6 +39,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="White_Market_Project.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -69,7 +70,8 @@
       <workItem from="1678891607158" duration="6003000" />
       <workItem from="1678907972714" duration="7256000" />
       <workItem from="1678994134688" duration="122000" />
-      <workItem from="1678994260531" duration="821000" />
+      <workItem from="1678994260531" duration="877000" />
+      <workItem from="1679411858181" duration="4868000" />
     </task>
     <servers />
   </component>

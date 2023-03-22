@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'WhiteMarket'
+    'WhiteMarket',
+    'captcha'
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,6 @@ ITEM_PHOTO_URL = "/media/item_photos/"
 
 LOGIN_REDIRECT_URL = "whitemarket/index"
 LOGOUT_REDIRECT_URL = "index"
+
+RECAPTCHA_PUBLIC_KEY = '6LcSvB0lAAAAAHTPYJYy09cRKsZgzbEIufwH9bL5'
+RECAPTCHA_PRIVATE_KEY = '6LcSvB0lAAAAAHW35u43VFWCJaVQb1yaSePA9zc8'

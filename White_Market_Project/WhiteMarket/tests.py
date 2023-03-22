@@ -2,7 +2,6 @@ import os
 import warnings
 import importlib
 import tempfile
-import WhiteMarket.models
 
 from django.test import TestCase
 from django.urls import reverse, NoReverseMatch
@@ -11,24 +10,50 @@ from django.contrib.auth.models import User
 from django.forms import fields as django_fields
 #from populate_whitemarket import populate
 from WhiteMarket import forms
+from WhiteMarket.models import *
 
 #from django.core.exceptions import ObjectDoesNotExist
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}==============={os.linesep}TEST FAILURE = ({os.linesep}==============={os.linesep})"
 FAILURE_FOOTER = f"{os.linesep}"
 
+"""
+Below are some helper functions to create objects of the models.
+"""
+
 def create_user_object():
-    """
-    Helper function to create a User object.
-    """
     user = User.objects.get_or_create(username='testuser',
                                       first_name='Test',
                                       last_name='User',
                                       email='test@test.com')[0]
     user.set_password('testabc123')
     user.save()
-
     return user
+
+def create_userProfile_object():
+    user_object = create_user_object()
+    user_profile = UserProfile.objects.get_or_create(user = user_object,
+                                                                profilePicture = tempfile.NamedTemporaryFile(suffix=".jpg").name,
+                                                                description = 'test user profile object',
+                                                                phoneNo = '07345678934')[0]
+    user_profile.save()
+    return user_profile
+
+def create_seller_object():
+    user_profile = create_userProfile_object()
+    seller_object = Sellers.objects.get_or_create(userID = user_profile, 
+                                           sellerName = 'test_seller',
+                                           rating = 2)[0]
+    seller_object.save()
+    return seller_object
+
+def create_store_object():
+    store_object = Stores.objects.get_or_create(storeName = 'Baseball cards', 
+                                                storeDescription = 'All the baseball cards your heart desires')[0]
+    store_object.save()
+    return store_object
+
+
 
 # class SellerTests(TestCase):
 #     def test_slug_line_creation(self):
@@ -99,7 +124,7 @@ class RegistrationTests(TestCase):
         profile_object.save()
 
         self.assertEquals(len(User.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a (Django) User object created, but it didn't appear. Check your UserForm implementation, and try again.{FAILURE_FOOTER}")
-        self.assertEquals(len(WhiteMarket.models.UserProfile.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a UserProfile object created, but it didn't appear. Check your UserProfileForm implementation, and try again.{FAILURE_FOOTER}")
+        self.assertEquals(len(UserProfile.objects.all()), 1, f"{FAILURE_HEADER}We were expecting to see a UserProfile object created, but it didn't appear. Check your UserProfileForm implementation, and try again.{FAILURE_FOOTER}")
         self.assertTrue(self.client.login(username='testuser', password='test123'), f"{FAILURE_HEADER}We couldn't log our sample user in during the tests. Please check your implementation of UserForm and UserProfileForm.{FAILURE_FOOTER}")
 
     def test_good_registration_post_response(self):
@@ -165,7 +190,27 @@ class LogoutTests(TestCase):
         self.assertEqual(response.status_code, 302, f"{FAILURE_HEADER}Logging out a user should cause a redirect, but this failed to happen. Please check your logout() view.{FAILURE_FOOTER}")
         self.assertTrue('_auth_user_id' not in self.client.session, f"{FAILURE_HEADER}Logging out with your logout() view didn't actually log the user out! Please check yout logout() view.{FAILURE_FOOTER}")
 
+class SellerTests(TestCase):
+    def test_create_seller_form(self):
+        seller_form = forms.SellerForm(data={'sellerName':'test_seller'})
+        self.assertTrue(seller_form.is_valid(), f"{FAILURE_HEADER} The SellerForm should be valid but it was not. Check SellerForm implementation")
 
+        seller_object = seller_form.save(commit=False)
+        temp_user_profile = create_userProfile_object()
+        seller_object.userID = UserProfile.objects.get(userID =temp_user_profile.userID)
+        seller_object.save()
+        self.assertTrue(len(Sellers.objects.all()) != 0, f"{FAILURE_HEADER} Seller object was not created.{FAILURE_FOOTER}")
+
+    def test_list_item_form(self):
+        item_store = create_store_object()
+        item_data = {'itemName': 'Babe Ruth baseball card', 'isDigital': False, 'itemDescription': 'Famous baseball card',
+                    'storeID': item_store.storeID, 'condition': 'Used',  'buyNowPrice':100, 'itemImage': tempfile.NamedTemporaryFile(suffix=".jpg").name}
+        item_form = forms.ItemForm(data=item_data)
+
+        self.assertTrue(item_form.is_valid(), f"{FAILURE_HEADER}The ItemForm should be valid but it was not. Check ItemForm implementation.{FAILURE_FOOTER}")
+
+
+   
 
 # class UserTests(TestCase):
 #     def test_sign_up_form(self):

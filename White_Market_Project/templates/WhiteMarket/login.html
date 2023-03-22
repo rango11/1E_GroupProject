@@ -11,17 +11,14 @@
         <title>White Market - Login</title>
     </head>
 
-
 <body>
     <div class="container">
         <img style="max-width: 10%; max-height: auto;" class="logo-about" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
         <h1>Login to White Market</h1>
         <form id="login_form" method="post" action="{% url 'whitemarket:login' %}">
             {% csrf_token %}
-            Username: <input type="text" name="username" value="" size="50" />
-            <br />
-            Password: <input type="password" name="password" value="" size="50" />
-            <br />
+            {{ form.as_p }}
+            <br/>
             <input type="submit" value="Log In" />
         </form>
     </div>
