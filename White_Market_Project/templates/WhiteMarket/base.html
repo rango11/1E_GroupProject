@@ -74,12 +74,6 @@
 
         {% if user.is_authenticated %}
                 <div class="bottom-links">
-<<<<<<< HEAD
-                  <a href="{% url 'whitemarket:myAccount' %}">Account</a>
-                  <a href="{% url 'whitemarket:transactions' %}">Transactions</a>
-                  <a href="{% url 'whitemarket:createSeller' %}">Create Seller</a>
-                  <a href="{% url 'whitemarket:listItem' %}">List Item</a>
-=======
                     <a href="{% url 'whitemarket:myAccount' %}">Account</a>
                     <a href="{% url 'whitemarket:transactions' %}">Transactions</a>
 
@@ -88,7 +82,6 @@
                     {% endif %}
 
                     <a href="{% url 'whitemarket:listItem' %}">List Item</a>
->>>>>>> feature/functionality
                     <a href="{% url 'whitemarket:logout' %}" style="padding-bottom: 2rem;">Logout</a>
                 </div>
             {% else %}
