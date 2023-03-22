@@ -77,7 +77,7 @@
                     <a href="{% url 'whitemarket:myAccount' %}">Account</a>
                     <a href="{% url 'whitemarket:transactions' %}">Transactions</a>
 
-                    {% if inSellers == False%}
+                    {% if inSeller == False%}
                     <a href="{% url 'whitemarket:createSeller' %}">Create Seller</a>
                     {% endif %}
 
