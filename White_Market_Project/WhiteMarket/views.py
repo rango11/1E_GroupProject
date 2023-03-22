@@ -159,9 +159,12 @@ def create_seller(request):
             seller.userID = UserProfile.objects.get(user=request.user)
             seller.save()
 
+<<<<<<< HEAD
             # url = reverse('whitemarket:createSeller', kwargs={'userID': seller.userID})
 
             # return redirect(url)
+=======
+>>>>>>> feature/functionality
     else:
         form = SellerForm()
 
