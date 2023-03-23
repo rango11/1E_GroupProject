@@ -89,7 +89,7 @@ class Items(models.Model):
     isDigital = models.BooleanField()
     itemDescription = models.CharField(max_length=128)
     itemImage = models.ImageField(upload_to='item_photos/')
-    condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
+    condition = models.CharField(max_length=11, choices=CONDITION_CHOICES)
     listedTime = models.DateTimeField(auto_now_add=True)
     sellTime = models.DateTimeField(null=True, blank=True)
     buyNowPrice = models.DecimalField(decimal_places=2, max_digits=10)

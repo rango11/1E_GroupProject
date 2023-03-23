@@ -36,7 +36,7 @@ SECRET_KEY = '$@6=6p3#0z2s3m&-0r#%hn05!qk!_fa@4d5v+es*l+j!oizfhr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["fkgsoftware.pythonanywhere.com", "127.0.0.1"]
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WhiteMarket',
-    'captcha'
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,8 @@ ROOT_URLCONF = 'White_Market_Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR, ],
+        'DIRS': [os.path.join(BASE_DIR, '1E_GroupProject', 'White_Market_Project', 'templates')],
+        # 'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
