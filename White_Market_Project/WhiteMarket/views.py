@@ -8,13 +8,25 @@ from datetime import datetime
 from django.urls import reverse
 from django.contrib.auth.views import LogoutView, LoginView
 from WhiteMarket.forms import UserForm, UserProfileForm, ItemForm
+import random
 
 
 def index(request):
     context_dict = {}
 
+
+    items = list(Items.objects.all())
+
+    # change 3 to how many random items you want
+    random_items = random.sample(items, 3)
+    context_dict["items"] = random_items
+
     return render(request, 'whitemarket/index.html', context=context_dict)
 
+def search(request):
+    if request.GET['search'] != None:
+        item_name_slug = slugify(request.GET['search'])
+        show_listing(request,item_name_slug)
 
 def showUser(request, username):
     context_dict = {}
