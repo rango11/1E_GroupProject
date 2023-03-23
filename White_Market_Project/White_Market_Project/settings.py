@@ -36,7 +36,7 @@ SECRET_KEY = '$@6=6p3#0z2s3m&-0r#%hn05!qk!_fa@4d5v+es*l+j!oizfhr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["fkgsoftware.pythonanywhere.com"]
 
 
 # Application definition
