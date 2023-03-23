@@ -67,8 +67,8 @@ ROOT_URLCONF = 'White_Market_Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '1E_GroupProject', 'White_Market_Project', 'templates')],
-        # 'DIRS': [TEMPLATE_DIR, ],
+        # 'DIRS': [os.path.join(BASE_DIR, '1E_GroupProject', 'White_Market_Project', 'templates')],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
