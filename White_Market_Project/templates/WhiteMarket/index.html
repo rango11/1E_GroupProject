@@ -13,55 +13,23 @@
 
 {% block body_block %}
 
-{% if user.is_authenticated %}
 <div class="container">
-  <div class="items-container">
-    <!-- Item 1 -->
-    <a href="#" class="item-box">
-      <img src="{{ MEDIA_URL }}/item_photos/item_photo_test.jpg" alt="Item 1">
+    <div class="items-container">
+
+{% for item in items %}
+
+
+    <a href="{% url 'whitemarket:showListing' item_name_slug=item.slug%}" class="item-box">
+      <img src="{{ MEDIA_URL }}/{{ITEM_PHOTO_URL }}/{{item.itemImage}}" alt="{{item.slug}}">
       <div class="item-info">
-        <span class="item-name">Item 1</span>
-        <span class="item-price">$100</span>
+        <span class="item-name">{{ item.itemName }}</span>
+        <br><span class="item-price">Buy Now Price:{{ item.buyNowPrice }}</span>
       </div>
-      <div class="item-seller">Seller: John Doe</div>
+      <div class="item-seller">Seller: {{ item.sellerID }}</div>
     </a>
 
-    <!-- Item 2 -->
-    <a href="#" class="item-box">
-        <img src="item-image-url-1.jpg" alt="Item 2">
-        <div class="item-info">
-          <span class="item-name">Item 2</span>
-          <span class="item-price">$101</span>
-        </div>
-        <div class="item-seller">Seller: John Doe</div>
-      </a>
+{% endfor %}
 
-      <!-- Item 3 -->
-      <a href="#" class="item-box">
-        <img src="item-image-url-1.jpg" alt="Item 3">
-        <div class="item-info">
-          <span class="item-name">Item 3</span>
-          <span class="item-price">$102</span>
-        </div>
-        <div class="item-seller">Seller: John Doe</div>
-      </a>
-  </div>
-
-  <!-- Graph -->
-  <div class="graph-container">
-    <canvas id="graph"></canvas>
-  </div>
-  <script src="{% static 'JavaScript/indexJS.js' %}"></script>
 </div>
-
-{% else %}
-<div class="container">
-  <img style="max-width: 20%; max-height: auto;" class="logo-about" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
-  <p style="font-size: 2em;">Login to access the White Market</p>
-  <button>
-    <a href="{% url 'whitemarket:login' %}">Log In</a>
-  </button>
 </div>
-{% endif %}
-
 {% endblock %}

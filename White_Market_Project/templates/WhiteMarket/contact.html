@@ -12,6 +12,8 @@
         <div class="grid-item about-page">
             <img style="max-width: 20%; max-height: auto;" class="logo-about" src="{% static 'images/whiteMarketLogo.svg' %}" alt="White Market logo" />
 
+ 
+                <div class="container">
                     <h1>Contact White Market</h1>
                     <p>If you have any questions or concerns, please feel free to reach out to us using the contact form below. Our team will get back to you as soon as possible.</p>
                     
@@ -40,11 +42,9 @@
                             <input type="submit" value="Submit">
                         </div>
                     </form>
-                    <a href="{% url 'whitemarket:index' %}">Home</a>
 
-
-            
-           
+            <a href="{% url 'whitemarket:index' %}">Home</a>
         </div>
+</div>
 </div>
 {% endblock %}
