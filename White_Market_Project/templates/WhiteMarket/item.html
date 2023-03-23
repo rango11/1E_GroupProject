@@ -15,7 +15,7 @@
     {{ item.listedTime }}
     {{ item.buyNowPrice }}
 
-    <img src="{{ MEDIA_URL }}/item_photos/item_photos/{{item.itemImage}}" />
+   <img src="{{ MEDIA_URL }}/{{ITEM_PHOTO_URL }}/{{item.itemImage}}" alt="{{item.slug}}">
 
     {% if seller.userID == currentUser  %}
         {% for bid in bids %}

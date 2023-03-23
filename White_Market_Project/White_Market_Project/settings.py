@@ -20,8 +20,8 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 ALLOWED_FILE_TYPES = ['jpeg', 'jpg','png']
 
 # For use in future
-USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
-USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
+#USER_PROFILE_PHOTO_DIR = os.path.join(MEDIA_DIR, 'user_profile_photos')
+USER_PROFILE_PHOTO_DIR = os.path.join(BASE_DIR, 'media/user_profile_photos')
 
 ITEM_PHOTO_DIR = os.path.join(BASE_DIR, 'media/item_photos')
 
@@ -144,7 +144,7 @@ MEDIA_URL = '/media/'
 
 # Start for media files
 USER_PROFILE_PHOTO_ROOT = USER_PROFILE_PHOTO_DIR
-USER_PROFILE_PHOTO_URL = "/user_profile_photos/"
+USER_PROFILE_PHOTO_URL = "/media/user_profile_photos/"
 
 ITEM_PHOTO_ROOT = ITEM_PHOTO_DIR
 ITEM_PHOTO_URL = "/media/item_photos/"
