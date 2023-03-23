@@ -28,10 +28,10 @@
 
 <!-- photo -->
     <div class="profile-photo-container">
-        <img src="{{userProfile.ProfilePicture}}" alt="User Photo">
+        <img src="{{ MEDIA_URL }}/{{USER_PROFILE_PHOTO_URL}}/{{userProfile.profilePicture}}"  alt="{{user.username}}">
     </div>
 </div>
 
 <div class="seller-description">Description: {{userProfile.description}}</div>
-
+</div>
 {% endblock %}
