@@ -1,31 +1,131 @@
+<!DOCTYPE html>
+
 {% extends 'whitemarket/base.html' %}
 {% load staticfiles %}
 
 {% block title_block %}
-    Item
+ - {{ item.itemName }}
+{% endblock %}
+
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/item.css' %}">
 {% endblock %}
 
 {% block body_block %}
 
-    {{ item.itemName }}
-    {{ item.sellerName }}
-    {{ item.itemName  }}
-    {{ item.isDigital }}
-    {{ item.itemDescription }}
-    {{ item.listedTime }}
-    {{ item.buyNowPrice }}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-8 info-box">
+            <h2>Item info</h2>
+            <p>Item name: {{ item.itemName }}</p>
+            <p>Digital: {{ item.isDigital }}</p>
+            <p>Date/time listed: {{ item.listedTime }}</p>
+            <p>Buy now price: {{ item.buyNowPrice }}</p>
+            <p>Item Description: {{ item.itemDescription }}</p>
+            <h2>Seller information</h2>
+            <p>Seller Name: {{ item.sellerName }}</p>
+        </div>
+        <div class="col-md-4">
+            {% if item.sellTime == null %}
+            {% if seller.userID != currentUser %}
+            <div class="button-container">
 
-   <img src="{{ MEDIA_URL }}/{{ITEM_PHOTO_URL }}/{{item.itemImage}}" alt="{{item.slug}}">
+                <a href="{% url 'whitemarket:checkout' item_name_slug=item.slug %}">
+                <button class="btn btn-primary bid-btn">Bid</button>
+                </a>
 
-    {% if seller.userID == currentUser  %}
-        {% for bid in bids %}
-        <li><a href="{% url 'whitemarket:transactionComplete' item_name_slug=item.slug bidID=bid.bidID %}">{{ bid.bidPrice }}</a></li>
-        {% endfor %}
-    {% else %}
-       {% if item.sellTime == null  %}
-        <a href="{% url 'whitemarket:checkout' item_name_slug=item.slug %}">Make Bid</a>
-        {% endif %}
-    {% endif %}
+                <a href="{% url 'whitemarket:checkout' item_name_slug=item.slug %}"></a>
+                <button class="btn btn-success buy-btn">Buy</button>
+                </a>
 
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="item-photo photo-box">
+                <img src="{{ MEDIA_URL }}/{{ITEM_PHOTO_URL }}/{{item.itemImage}}" alt="{{item.slug}}" class="img-fluid">
+                <span class="expand-text">Click to expand</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="itemTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="bids-tab" data-bs-toggle="tab" data-bs-target="#bids" type="button" role="tab" aria-controls="bids" aria-selected="true">Bids</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="graph-tab" data-bs-toggle="tab" data-bs-target="#graph" type="button" role="tab" aria-controls="graph" aria-selected="false">Graph</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="owners-tab" data-bs-toggle="tab" data-bs-target="#owners" type="button" role="tab" aria-controls="owners" aria-selected="false">Previous Owners</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab" aria-controls="transactions" aria-selected="false">Transactions</button>
+                </li>
+            </ul>
+            <div class="tab-content mt-2" id="itemTabsContent">
+                <div class="tab-pane fade show active" id="bids" role="tabpanel" aria-labelledby="bids-tab">
+                    <ul>
+                        <li><span class="green">Username</span> - <span class="red">Date/Time</span> - <span class="white">Price</span></li>
+                        <!-- Add more bid items here -->
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="graph" role="tabpanel" aria-labelledby="graph-tab">
+                    <!-- Insert your JavaScript or Bootstrap graph here -->
+                    <p>Graph of previous selling prices for like items goes here.</p>
+                </div>
+                <div class="tab-pane fade" id="owners" role="tabpanel" aria-labelledby="owners-tab">
+                    <ul>
+                        <li>Previous owner 1</li>
+                        <li>Previous owner 2</li>
+                        <!-- Add more previous owner items here -->
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="transactions-tab">
+                    <ul>
+                        {% if seller.userID == currentUser %}
+                            {% for bid in bids %}
+                                <li><a href="{% url 'whitemarket:transactionComplete' item_name_slug=item.slug bidID=bid.bidID %}">{{ bid.bidPrice }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery for the click-to-zoom functionality -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Activate Bootstrap tabs
+    $('#itemTabs a').on('click', function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // Click-to-zoom functionality
+    $('.item-photo img').on('click', function() {
+        let image = $(this);
+        let imageSrc = image.attr('src');
+        let zoomedImage = $('<img>').attr('src', imageSrc).css('width', '100%');
+
+        let modalContent = $('<div>').append(zoomedImage);
+        let modal = new bootstrap.Modal(modalContent[0]); 
+
+        modalContent.on('click', function() {
+            modal.hide();
+        });
+
+        modal.show();
+    });
+</script>
 
 {% endblock %}
+
+
+
+
+
