@@ -21,7 +21,7 @@ def populate():
     ELines = emailfile.readlines()
     phonefile = open('phoneN.txt', 'r')
     phoneLines = phonefile.readlines()
-    users, userProfiles, sellers, stores, items=[]
+    users, userProfiles, sellers, stores, items=[], [], [], [], []
       
     for counter in range(len(nLines)):
         new_user=User.objects.get_or_create(username=nLines[counter],password=PLines[counter])[0]
