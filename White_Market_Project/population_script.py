@@ -74,7 +74,7 @@ def populate():
                                             storeID= store,
                                             isDigital= is_digital, 
                                             itemDescription="...",
-                                            itemImage=tempfile.NamedTemporaryFile(suffix=".jpg").name,
+                                            itemImage=f"item_photos/{store.storeName}{counter}.jpg",
                                             condition='New', 
                                             buyNowPrice=random.randint(10,200))[0]
             item.save()
