@@ -4,11 +4,11 @@
 {% load staticfiles %}
 
 {% block title_block %}
- - Create Seller
+Create Seller
 {% endblock %}
 
 {% block body_block %}
-<div class="container">
+<div class="container" style="padding: 4rem 16rem;">
 <form id="seller_form" method="post" action="{% url 'whitemarket:createSeller' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

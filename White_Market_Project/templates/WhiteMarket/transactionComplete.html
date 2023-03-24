@@ -2,9 +2,18 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Transaction Complete
+Transaction Complete
 {% endblock %}
 
 {% block body_block %}
-{{item.itemName}} was bought by {{username}}
+
+<div class="container-basic" style="padding: 4rem 16rem;">
+    <h1>Transaction Complete</h1>
+    <p>Thank you for your purchase!</p>
+    <p>Your transaction has been completed successfully. {{item.itemName}} has been succesfully bought by {{username}}</p>
+    <p>A confirmation email has been sent to your email address. If you have any questions or concerns, please contact our support team.</p>
+    <a href="{% url 'whitemarket:index' %}">Home</a>
+  </div>
+
 {% endblock %}
+

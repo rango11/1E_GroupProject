@@ -3,8 +3,6 @@
   font-family: 'Roboto';
   src: url('roboto.eot'); /* IE9 Compat Modes */
   src: url('roboto.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  /* url('roboto.woff') format('woff'), 
-  url('roboto.ttf')  format('truetype'),  */
   url('roboto.svg#svgFontName') format('svg'); /* Legacy iOS */
   font-weight: 300; /*Light*/
   font-style: normal;
@@ -21,6 +19,14 @@ body{
 }
 .body{
   padding: 7rem 0rem 5rem 0rem;
+}
+
+a{
+  color: #F1F1F1;
+}
+
+a:hover {
+  color: white;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~HEADER~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -138,6 +144,7 @@ body{
 }
 
 .scrollable {
+  margin:1rem;
   max-height: 200px;
   overflow-y: auto;
 }
@@ -273,12 +280,14 @@ footer {
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~USER~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* .user{} */
-
-
-/* ~~~~~~~~~~~~~~~~~~~~~~ITEM~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* .item{} */
-
+/* Basic page stuff */
+.container-basic{
+  padding: 4rem 16rem;
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~RESPONSIVE~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
@@ -296,7 +305,3 @@ footer {
       left :150px; /* same as reduced sidebar width */
   }
 }
-
-
-
-
