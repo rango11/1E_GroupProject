@@ -36,8 +36,8 @@ def populate():
         new_user_profile.save()
         userProfiles.append(new_user_profile)
 
-    #Create 8 sellers
-    for counter in range(8):
+    #Create 20 sellers
+    for counter in range(20):
         seller=Sellers.objects.get_or_create(userID =userProfiles[counter],
                                              sellerName=nLines[counter],
                                              rating=random.randint(1,5))[0]
