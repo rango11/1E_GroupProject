@@ -9,24 +9,22 @@ from django.urls import reverse
 from django.contrib.auth.views import LogoutView, LoginView
 from WhiteMarket.forms import UserForm, UserProfileForm, ItemForm
 import random
+from django.db.models import Q
 
 
 def index(request):
     context_dict = {}
 
-
     items = list(Items.objects.all())
 
-    # change 3 to how many random items you want
-    random_items = random.sample(items, 3)
-    context_dict["items"] = random_items
+    if len(items) >= 3:
+        random_items = random.sample(items, 3)
+        context_dict["items"] = random_items
+    else:
+        context_dict["items"] = items
 
     return render(request, 'whitemarket/index.html', context=context_dict)
 
-def search(request):
-    if request.GET['search'] != None:
-        item_name_slug = slugify(request.GET['search'])
-        show_listing(request,item_name_slug)
 
 def showUser(request, username):
     context_dict = {}
@@ -55,9 +53,8 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            #if 'picture' in request.FILES:
-                #profile.profilePicture = request.FILES['profilePicture']
-
+            # if 'picture' in request.FILES:
+            # profile.profilePicture = request.FILES['profilePicture']
 
             profile.save()
             registered = True
@@ -69,6 +66,8 @@ def register(request):
 
     return render(request, 'whitemarket/register.html', context={'user_form': user_form, 'profile_form': profile_form,
                                                                  'registered': registered})
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -286,3 +285,17 @@ def transactions(request):
     context_dict['uncompleteBids'] = Bids.objects.filter(userID=currentUser.userID, complete=False)
 
     return render(request, 'whitemarket/transactions.html', context_dict)
+
+
+def search(request):
+    items = Items.objects.all()
+    query = request.GET.get('q')
+    if query:
+        items = items.filter(
+            Q(itemName__icontains=query) | Q(itemDescription__icontains=query)
+        ).distinct()
+    context = {
+        'results': items,
+        'query': query,
+    }
+    return render(request, 'whitemarket/search.html', context)

@@ -25,11 +25,12 @@ urlpatterns = [
     path('user/<slug:username>/', views.showUser, name='showUser'),
     path('checkout/<slug:item_name_slug>/', views.checkout, name='checkout'),
     path('transactions/', views.transactions, name='transactions'),
-    path('transactionComplete/<slug:item_name_slug>/<int:bidID>>/', views.transactionComplete, name='transactionComplete'),
+    path('transactionComplete/<slug:item_name_slug>/<int:bidID>/', views.transactionComplete, name='transactionComplete'),
     path('terms/', views.terms, name='terms'),
     path('contact/', views.contact, name='contact'),
     path('privacy/', views.privacy, name='privacy'),
     path('createSeller/', views.create_seller, name='createSeller'),
+    path('search/', views.search, name='search'),
 
 
     # path('', views.index, name='index'),

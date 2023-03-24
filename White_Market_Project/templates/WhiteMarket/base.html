@@ -10,7 +10,7 @@
         <title>
           {% block title_block %}
             White Market 
-          {% endblock %}s
+          {% endblock %}
         </title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -44,10 +44,10 @@
     </div>
         <!-- code for the search bar -->
         
-        <form class="search-form">
-          <input class="search-input" type="search" placeholder="Search" aria-label="Search">
-          <button class="submit-btn" type="submit">Search</button>
-        </form>
+    <form method="get" action="{% url 'whitemarket:search' %}">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
         
       </header>
     {% endif %}
