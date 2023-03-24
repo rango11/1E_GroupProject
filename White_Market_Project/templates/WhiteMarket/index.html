@@ -18,8 +18,6 @@
     <div class="items-container">
 
 {% for item in items %}
-
-
     <a href="{% url 'whitemarket:showListing' item_name_slug=item.slug%}" class="item-box">
       <img src="{{ MEDIA_URL }}/{{ITEM_PHOTO_URL }}/{{item.itemImage}}" alt="{{item.slug}}">
       <div class="item-info">
@@ -28,7 +26,6 @@
       </div>
       <div class="item-seller">Seller: {{ item.sellerID }}</div>
     </a>
-
 {% endfor %}
 
 

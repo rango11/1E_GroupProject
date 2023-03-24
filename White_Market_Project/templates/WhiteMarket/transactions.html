@@ -6,6 +6,7 @@ Transactions
 {% endblock %}
 
 {% block body_block %}
+<div class="container-basic" style="padding: 4rem 16rem;">
 <h1>Pending Bids</h1>
 {% for bid in uncompleteBids %}
 {{bid.itemID}}
@@ -19,5 +20,6 @@ Transactions
 ------
 {{bid.bidPrice}}
 {% endfor %}
+</div>
 
 {% endblock %}

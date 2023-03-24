@@ -6,10 +6,13 @@
 {% endblock %}
 
 {% block body_block %}
+<div class="container-basic" style="padding: 4rem 16rem;">
+
 <form id="bid_form" method="post" action="{% url 'whitemarket:checkout' item_name_slug=itemSlug %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
 
     <input type="submit" name="submit" value="Create Bid" />
 </form>
+</div>
 {% endblock %}
